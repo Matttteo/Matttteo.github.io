@@ -115,9 +115,109 @@
 		
             
 		
+            
+		
+            
+		
         
         <!-- render other articles -->
         
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2016-11-04 </div>
+			<div class="article-title"><a href="/2016/11/04/CombinationSum/" >CombinationSum</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<blockquote>
+<p>Given a set of candidate numbers (C) and a target number (T), find all unique combinations in C where the candidate numbers sums to T.</p>
+<p>The same repeated number may be chosen from C unlimited number of times.</p>
+<p>Note:</p>
+</blockquote>
+<p>All numbers (including target) will be positive integers.<br>The solution set must not contain duplicate combinations.</p>
+<blockquote>
+<p>For example, given candidate set [2, 3, 6, 7] and target 7,<br>A solution set is: </p>
+</blockquote>
+<p>[  [7],  [2, 2, 3]]</p>
+<p>用回溯解决这个问题 非常方便，首先排序一下，然后每次判断一下是不是已经超过target值再进入下一层递归。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">class</span> Solution &#123;</div><div class="line"></div><div class="line"><span class="keyword">public</span>:</div><div class="line"></div><div class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; combinationSum(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; candidates, <span class="keyword">int</span> target) &#123;</div><div class="line"></div><div class="line">        sort(candidates.begin(), candidates.end());</div><div class="line"></div><div class="line">        <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; result;</div><div class="line"></div><div class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; tmp;</div><div class="line"></div><div class="line">        __combinationSum(result, tmp, candidates, <span class="number">0</span>, target, <span class="number">0</span>);</div><div class="line"></div><div class="line">        <span class="keyword">return</span> result;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">void</span> __combinationSum(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt;&amp; result, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; tmp, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; candidates, <span class="keyword">int</span> sum, <span class="keyword">int</span> target, <span class="keyword">int</span> idx)&#123;</div><div class="line"></div><div class="line">        <span class="keyword">if</span>(sum == target)&#123;</div><div class="line"></div><div class="line">            result.push_back(tmp);</div><div class="line"></div><div class="line">            <span class="keyword">return</span>;</div><div class="line"></div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = idx; i &lt; candidates.size(); ++i)&#123;</div><div class="line"></div><div class="line">            <span class="keyword">if</span>(sum + candidates[i] &gt; target) <span class="keyword">break</span>;</div><div class="line"></div><div class="line">            tmp.push_back(candidates[i]);</div><div class="line"></div><div class="line">            __combinationSum(result, tmp, candidates, sum + candidates[i], target, i);</div><div class="line"></div><div class="line">            tmp.pop_back();</div><div class="line"></div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>当不允许重复的时候</p>
+<blockquote>
+<p>Given a collection of candidate numbers (C) and a target number (T), find all unique combinations in C where the candidate numbers sums to T.</p>
+<p>Each number in C may only be used once in the combination.</p>
+<p>Note:</p>
+</blockquote>
+<p>All numbers (including target) will be positive integers.<br>The solution set must not contain duplicate combinations.</p>
+<blockquote>
+<p>For example, given candidate set [10, 1, 2, 7, 6, 1, 5] and target 8,<br>A solution set is: [[1, 7],[1, 2, 5],[2, 6],[1, 1, 6]]</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">class</span> Solution &#123;</div><div class="line"></div><div class="line"><span class="keyword">public</span>:</div><div class="line"></div><div class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; combinationSum2(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; candidates, <span class="keyword">int</span> target) &#123;</div><div class="line"></div><div class="line">        sort(candidates.begin(), candidates.end());</div><div class="line"></div><div class="line">        <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; result;</div><div class="line"></div><div class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; tmp;</div><div class="line"></div><div class="line">        __combinationSum(result, tmp, candidates, <span class="number">0</span>, target, <span class="number">0</span>);</div><div class="line"></div><div class="line">        <span class="keyword">return</span> result;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">void</span> __combinationSum(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt;&amp; result, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; tmp, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; candidates, <span class="keyword">int</span> sum, <span class="keyword">int</span> target, <span class="keyword">int</span> idx)&#123;</div><div class="line"></div><div class="line">        <span class="keyword">if</span>(sum == target)&#123;</div><div class="line"></div><div class="line">            result.push_back(tmp);</div><div class="line"></div><div class="line">            <span class="keyword">return</span>;</div><div class="line"></div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">int</span> i = idx;</div><div class="line"></div><div class="line">        <span class="keyword">while</span>( i &lt; candidates.size())&#123;</div><div class="line"></div><div class="line">            <span class="keyword">if</span>(sum + candidates[i] &gt; target) <span class="keyword">break</span>;</div><div class="line"></div><div class="line">            tmp.push_back(candidates[i]);</div><div class="line"></div><div class="line">            __combinationSum(result, tmp, candidates, sum + candidates[i], target, i + <span class="number">1</span>);</div><div class="line"></div><div class="line">            tmp.pop_back();</div><div class="line"></div><div class="line">            <span class="keyword">int</span> value = candidates[i];</div><div class="line"></div><div class="line">            <span class="keyword">while</span>((i &lt; candidates.size() &amp;&amp; candidates[i] == value))&#123;</div><div class="line"></div><div class="line">                i++;</div><div class="line">            &#125;</div><div class="line">        &#125; 	</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>最后套路一下，做回溯之前先对数组排序，这样可以获得一些顺序信息。</p>
+
+	
+	</div>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2016-11-04 </div>
+			<div class="article-title"><a href="/2016/11/04/pythonQA01/" >pythonQA01</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<h3 id="如何得到HTML中某个tag中的text内容？"><a href="#如何得到HTML中某个tag中的text内容？" class="headerlink" title="如何得到HTML中某个tag中的text内容？"></a>如何得到HTML中某个tag中的text内容？</h3><ol>
+<li>首先，要得到所有想要的tag对象，用BeatifulSoup中的<a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/index.zh.html#find-all" target="_blank" rel="external">find_all</a>，</li>
+<li>然后直接.text获取</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">page = urllib.urlopen(<span class="string">"inmind.html"</span>).read()</div><div class="line">soup = BeautifulSoup(page, <span class="string">"lxml"</span>)</div><div class="line">result = soup.find_all(<span class="string">"div"</span>, class_ = <span class="string">"Attachment-body"</span>)</div><div class="line"><span class="keyword">for</span> res <span class="keyword">in</span> result:</div><div class="line">    <span class="keyword">print</span> res.text</div></pre></td></tr></table></figure>
+<h3 id="python-中如何分配一个固定大小的数组"><a href="#python-中如何分配一个固定大小的数组" class="headerlink" title="python 中如何分配一个固定大小的数组"></a>python 中如何分配一个固定大小的数组</h3><p>我希望的是在内存中分配一块固定空间大小的空间，如果使用下面的方法生成n 维数组，得到的结果不是需要的。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">a = [[<span class="keyword">None</span>]*<span class="number">5</span>] * <span class="number">5</span></div></pre></td></tr></table></figure></p>
+<p>原因是list的repetition操作*执行的是浅拷贝，他只是把创造了一些已有的对象的引用。<br>可以下面两种方式得到正确的数组。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># first method</span></div><div class="line">a = [<span class="keyword">None</span>]*<span class="number">5</span></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>):</div><div class="line">    a[i] = [<span class="keyword">None</span>] * <span class="number">5</span></div><div class="line"></div><div class="line"><span class="comment"># second method</span></div><div class="line">a = [[<span class="keyword">None</span>] * <span class="number">5</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>)]</div></pre></td></tr></table></figure>
+<p>参考<a href="https://docs.python.org/2/faq/programming.html#how-do-i-create-a-multidimensional-list" target="_blank" rel="external">这里</a></p>
+<p>另外如果用numpy的ndarrary更方便</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">a = np.ndarrary((<span class="number">3</span>,<span class="number">3</span>))</div></pre></td></tr></table></figure>
+<h3 id="python如何检查元素是否在set中"><a href="#python如何检查元素是否在set中" class="headerlink" title="python如何检查元素是否在set中?"></a>python如何检查元素是否在set中?</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">a = set([<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>])</div><div class="line"><span class="keyword">print</span> <span class="number">3</span> <span class="keyword">in</span> a</div></pre></td></tr></table></figure>
+<h3 id="python中json的用法"><a href="#python中json的用法" class="headerlink" title="python中json的用法"></a>python中json的用法</h3><p><a href="http://json.org/" target="_blank" rel="external">json</a> 用于存储结构化数据非常方便，用python的json包可以很好的实现对json的操作。</p>
+<ol>
+<li>将json Object 移动到python string中：json.dumps</li>
+<li>将json Object 移动到文件中: json.dump</li>
+<li>将字符串转换为json object : json.loads</li>
+<li>将文件转换为json object: json.load<br>具体参考<a href="https://docs.python.org/2/library/json.html" target="_blank" rel="external">这里</a></li>
+</ol>
+<h3 id="如何创建一个文件夹（当已经存在时跳过）"><a href="#如何创建一个文件夹（当已经存在时跳过）" class="headerlink" title="如何创建一个文件夹（当已经存在时跳过）"></a>如何创建一个文件夹（当已经存在时跳过）</h3><p><a href="http://stackoverflow.com/a/273227" target="_blank" rel="external">参考</a><br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> <span class="keyword">not</span> os.path.exisits(directory):</div><div class="line">    os.mkdir(directory)</div></pre></td></tr></table></figure></p>
+<h3 id="如何使用python-下载文件"><a href="#如何使用python-下载文件" class="headerlink" title="如何使用python 下载文件"></a>如何使用python 下载文件</h3><ol>
+<li>使用 <a href="https://docs.python.org/2/library/urllib.html#urllib.urlretrieve_" target="_blank" rel="external">urllib.urlretrieve</a></li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> urllib</div><div class="line">urllib.urlretrieve(<span class="string">"https://example.com/file/test.doc"</span>, <span class="string">"test.doc"</span>)</div></pre></td></tr></table></figure>
+<ol>
+<li>使用<a href="https://docs.python.org/2/library/urllib2.html#urllib2.urlopen" target="_blank" rel="external">urllib2.urlopen</a></li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> urllib2</div><div class="line">response = urllib2.urlopen(<span class="string">"http://www.example.com/file"</span>)</div><div class="line"><span class="keyword">with</span> open(<span class="string">"output"</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> output:</div><div class="line">    output.write(response.read())</div></pre></td></tr></table></figure>
+<h3 id="如何使用python移除字符串空格？"><a href="#如何使用python移除字符串空格？" class="headerlink" title="如何使用python移除字符串空格？"></a>如何使用python移除字符串空格？</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#移除头尾空格</span></div><div class="line">str  = str.strip()</div><div class="line"><span class="comment">#移除所有</span></div><div class="line">str = str.replace(<span class="string">" "</span>, <span class="string">""</span>)</div><div class="line"><span class="comment">#移除重复</span></div><div class="line">str = <span class="string">" "</span>.join(str.split())</div></pre></td></tr></table></figure>
+	
+	</div>
+</div>
+
+           
+		
            
 			  
 	
@@ -295,7 +395,7 @@
 		<h4>Categories</h4>
 		<ul class="tag_box inline list-unstyled">
 		
-			<li><a href="/categories/算法/">算法<span>1</span></a></li>
+			<li><a href="/categories/算法/">算法<span>2</span></a></li>
 		
 			<li><a href="/categories/随笔/">随笔<span>2</span></a></li>
 		
@@ -308,9 +408,15 @@
 		<h4>Tag Cloud</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
+			<li><a href="/tags/算法/">算法<span>1</span></a></li>
+		
 			<li><a href="/tags/随笔/">随笔<span>0</span></a></li>
 		
-			<li><a href="/tags/leetcode/">leetcode<span>1</span></a></li>
+			<li><a href="/tags/leetcode/">leetcode<span>2</span></a></li>
+		
+			<li><a href="/tags/python/">python<span>1</span></a></li>
+		
+			<li><a href="/tags/爬虫/">爬虫<span>1</span></a></li>
 		
 		 
 		</ul>
@@ -324,6 +430,14 @@
   <ul class="entry list-unstyled">
     
       <li>
+        <a href="/2016/11/04/CombinationSum/" ><i class="fa fa-file-o"></i>CombinationSum</a>
+      </li>
+    
+      <li>
+        <a href="/2016/11/04/pythonQA01/" ><i class="fa fa-file-o"></i>pythonQA01</a>
+      </li>
+    
+      <li>
         <a href="/2016/11/02/Find-Minimum-in-Rotated-Sorted-Array/" ><i class="fa fa-file-o"></i>Find Minimum in Rotated Sor...</a>
       </li>
     
@@ -333,14 +447,6 @@
     
       <li>
         <a href="/2016/10/11/乌托邦/" ><i class="fa fa-file-o"></i>乌托邦</a>
-      </li>
-    
-      <li>
-        <a href="/2016/10/10/Brand-new-day/" ><i class="fa fa-file-o"></i>Brand new day</a>
-      </li>
-    
-      <li>
-        <a href="/2016/10/10/hello/" ><i class="fa fa-file-o"></i>hello</a>
       </li>
     
   </ul>

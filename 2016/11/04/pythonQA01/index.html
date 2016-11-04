@@ -1,0 +1,281 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>pythonQA01 | Yunhan</title>
+  <meta name="author" content="Yunhan Bai">
+  
+  <meta name="description" content="如何得到HTML中某个tag中的text内容？
+首先，要得到所有想要的tag对象，用BeatifulSoup中的find_all，
+然后直接.text获取
+
+12345page = urllib.urlopen(&quot;inmind.html&quot;).read()soup = BeautifulSoup(pa">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="pythonQA01"/>
+  <meta property="og:site_name" content="Yunhan"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/bootstrap.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">Yunhan</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header page-header-inverse ">		
+			<h1 class="title title-inverse "> pythonQA01</h1>
+		</div>		
+	
+
+
+
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <h3 id="如何得到HTML中某个tag中的text内容？"><a href="#如何得到HTML中某个tag中的text内容？" class="headerlink" title="如何得到HTML中某个tag中的text内容？"></a>如何得到HTML中某个tag中的text内容？</h3><ol>
+<li>首先，要得到所有想要的tag对象，用BeatifulSoup中的<a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/index.zh.html#find-all" target="_blank" rel="external">find_all</a>，</li>
+<li>然后直接.text获取</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">page = urllib.urlopen(<span class="string">"inmind.html"</span>).read()</div><div class="line">soup = BeautifulSoup(page, <span class="string">"lxml"</span>)</div><div class="line">result = soup.find_all(<span class="string">"div"</span>, class_ = <span class="string">"Attachment-body"</span>)</div><div class="line"><span class="keyword">for</span> res <span class="keyword">in</span> result:</div><div class="line">    <span class="keyword">print</span> res.text</div></pre></td></tr></table></figure>
+<h3 id="python-中如何分配一个固定大小的数组"><a href="#python-中如何分配一个固定大小的数组" class="headerlink" title="python 中如何分配一个固定大小的数组"></a>python 中如何分配一个固定大小的数组</h3><p>我希望的是在内存中分配一块固定空间大小的空间，如果使用下面的方法生成n 维数组，得到的结果不是需要的。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">a = [[<span class="keyword">None</span>]*<span class="number">5</span>] * <span class="number">5</span></div></pre></td></tr></table></figure></p>
+<p>原因是list的repetition操作*执行的是浅拷贝，他只是把创造了一些已有的对象的引用。<br>可以下面两种方式得到正确的数组。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># first method</span></div><div class="line">a = [<span class="keyword">None</span>]*<span class="number">5</span></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>):</div><div class="line">    a[i] = [<span class="keyword">None</span>] * <span class="number">5</span></div><div class="line"></div><div class="line"><span class="comment"># second method</span></div><div class="line">a = [[<span class="keyword">None</span>] * <span class="number">5</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>)]</div></pre></td></tr></table></figure>
+<p>参考<a href="https://docs.python.org/2/faq/programming.html#how-do-i-create-a-multidimensional-list" target="_blank" rel="external">这里</a></p>
+<p>另外如果用numpy的ndarrary更方便</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">a = np.ndarrary((<span class="number">3</span>,<span class="number">3</span>))</div></pre></td></tr></table></figure>
+<h3 id="python如何检查元素是否在set中"><a href="#python如何检查元素是否在set中" class="headerlink" title="python如何检查元素是否在set中?"></a>python如何检查元素是否在set中?</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">a = set([<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>])</div><div class="line"><span class="keyword">print</span> <span class="number">3</span> <span class="keyword">in</span> a</div></pre></td></tr></table></figure>
+<h3 id="python中json的用法"><a href="#python中json的用法" class="headerlink" title="python中json的用法"></a>python中json的用法</h3><p><a href="http://json.org/" target="_blank" rel="external">json</a> 用于存储结构化数据非常方便，用python的json包可以很好的实现对json的操作。</p>
+<ol>
+<li>将json Object 移动到python string中：json.dumps</li>
+<li>将json Object 移动到文件中: json.dump</li>
+<li>将字符串转换为json object : json.loads</li>
+<li>将文件转换为json object: json.load<br>具体参考<a href="https://docs.python.org/2/library/json.html" target="_blank" rel="external">这里</a></li>
+</ol>
+<h3 id="如何创建一个文件夹（当已经存在时跳过）"><a href="#如何创建一个文件夹（当已经存在时跳过）" class="headerlink" title="如何创建一个文件夹（当已经存在时跳过）"></a>如何创建一个文件夹（当已经存在时跳过）</h3><p><a href="http://stackoverflow.com/a/273227" target="_blank" rel="external">参考</a><br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> <span class="keyword">not</span> os.path.exisits(directory):</div><div class="line">    os.mkdir(directory)</div></pre></td></tr></table></figure></p>
+<h3 id="如何使用python-下载文件"><a href="#如何使用python-下载文件" class="headerlink" title="如何使用python 下载文件"></a>如何使用python 下载文件</h3><ol>
+<li>使用 <a href="https://docs.python.org/2/library/urllib.html#urllib.urlretrieve_" target="_blank" rel="external">urllib.urlretrieve</a></li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> urllib</div><div class="line">urllib.urlretrieve(<span class="string">"https://example.com/file/test.doc"</span>, <span class="string">"test.doc"</span>)</div></pre></td></tr></table></figure>
+<ol>
+<li>使用<a href="https://docs.python.org/2/library/urllib2.html#urllib2.urlopen" target="_blank" rel="external">urllib2.urlopen</a></li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> urllib2</div><div class="line">response = urllib2.urlopen(<span class="string">"http://www.example.com/file"</span>)</div><div class="line"><span class="keyword">with</span> open(<span class="string">"output"</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> output:</div><div class="line">    output.write(response.read())</div></pre></td></tr></table></figure>
+<h3 id="如何使用python移除字符串空格？"><a href="#如何使用python移除字符串空格？" class="headerlink" title="如何使用python移除字符串空格？"></a>如何使用python移除字符串空格？</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#移除头尾空格</span></div><div class="line">str  = str.strip()</div><div class="line"><span class="comment">#移除所有</span></div><div class="line">str = str.replace(<span class="string">" "</span>, <span class="string">""</span>)</div><div class="line"><span class="comment">#移除重复</span></div><div class="line">str = <span class="string">" "</span>.join(str.split())</div></pre></td></tr></table></figure>	  
+	</div>
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2016/11/04/CombinationSum/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>Prev</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2016/11/02/Find-Minimum-in-Rotated-Sorted-Array/" class="alignright next">Next<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+
+    <!-- share -->
+    
+        
+    <div class="bdsharebuttonbox">
+        <a href="#" class="bds_more" data-cmd="more"></a>
+        <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+        <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+        <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+        <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+        <a href="#" class="bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+        <a href="#" class="bds_evernotecn" data-cmd="evernotecn" title="分享到印象笔记"></a>
+        <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+        <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+    </div>
+    <script>
+        window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"24"},"share":{}};
+        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+    </script>
+
+
+        
+
+    
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">Comments</h2>
+
+  
+</section>
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2016-11-04 
+	</div>
+	
+
+	<!-- categories -->
+    
+
+	<!-- tags -->
+	
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
+    <ul id="tags" class="tag_box list-unstyled collapse in">	  
+	    
+  <li><a href="/tags/python/">python<span>1</span></a></li> <li><a href="/tags/爬虫/">爬虫<span>1</span></a></li>
+    </ul>
+	</div>
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2016 Yunhan Bai
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+</body>
+   </html>
