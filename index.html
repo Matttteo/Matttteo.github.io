@@ -119,9 +119,44 @@
 		
             
 		
+            
+		
         
         <!-- render other articles -->
         
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2016-11-17 </div>
+			<div class="article-title"><a href="/2016/11/17/C-中如何设计一个线程安全的单例/" > C++中如何设计一个线程安全的单例</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<p>网上有一篇很不错的<a href="https://www.cnblogs.com/liyuan989/p/4264889.html" target="_blank" rel="external">文章</a>介绍了如何实现线程安全的单例，感觉比较方便的几种是：</p>
+<h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><p>第一种利用了C++新标准规定当一个线程正在执行一个变量的初始化的时候，另一个线程必须等待其初始化完成才能执行。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div><div class="line"><span class="keyword">class</span> Singleton</div><div class="line">&#123;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="function"><span class="keyword">static</span> T&amp; <span class="title">getInstance</span><span class="params">()</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">static</span> T value;</div><div class="line">        <span class="keyword">return</span> value;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line"><span class="keyword">private</span>:</div><div class="line">    Singleton();</div><div class="line">    ~Singleton();</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>在c++11以后这个方法是线程安全的，但是这种方法如果我想获得一个指向单例的智能指针比较麻烦。</p>
+<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><p>第二种方法对临界区加锁，这样就不会出现多个线程同时创造实例，缺点是每次加锁会拖慢执行速度。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div><div class="line"><span class="keyword">class</span> Singleton</div><div class="line">&#123;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="function"><span class="keyword">static</span> T&amp; <span class="title">getInstance</span><span class="params">()</span></span></div><div class="line">    &#123;</div><div class="line">        &#123;</div><div class="line">            <span class="function">MutexGuard <span class="title">guard</span><span class="params">(mutex_)</span>  <span class="comment">// RAII</span></span></div><div class="line">            <span class="title">if</span> <span class="params">(!value_)</span></div><div class="line">            &#123;</div><div class="line">                value_ = <span class="keyword">new</span> T();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> *value_;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line"><span class="keyword">private</span>:</div><div class="line">    Singleton();</div><div class="line">    ~Singleton();</div><div class="line"> </div><div class="line">    <span class="keyword">static</span> T*     value_;</div><div class="line">    <span class="keyword">static</span> Mutex  mutex_;</div><div class="line">&#125;;</div><div class="line"> </div><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div><div class="line">T* Singleton&lt;T&gt;::value_ = <span class="literal">NULL</span>;</div><div class="line"> </div><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div><div class="line">Mutex Singleton&lt;T&gt;::mutex_;</div></pre></td></tr></table></figure>
+<p>这个方法至少可以让我拿到一个智能指针。</p>
+<h3 id="方法三"><a href="#方法三" class="headerlink" title="方法三"></a>方法三</h3><p>这种方法使用unix平台上的pthread_once实现Singleton</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">template&lt;typename T&gt;</div><div class="line">class Singleton : Nocopyable</div><div class="line">&#123;</div><div class="line">public:</div><div class="line">    static T&amp; getInstance()</div><div class="line">    &#123;</div><div class="line">        threads::pthread_once(&amp;once_control_, init);</div><div class="line">        return *value_;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">private:</div><div class="line">    static void init()</div><div class="line">    &#123;</div><div class="line">        value_ = new T();</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    Singleton();</div><div class="line">    ~Singleton();</div><div class="line"> </div><div class="line">    static pthread_once_t  once_control_;</div><div class="line">    static T*              value_;</div><div class="line">&#125;;</div><div class="line"> </div><div class="line">template&lt;typename T&gt;</div><div class="line">pthread_once_t Singleton&lt;T&gt;::once_control_ = PTHREAD_ONCE_INIT;</div><div class="line"> </div><div class="line">template&lt;typename T&gt;</div><div class="line">T* Singleton&lt;T&gt;::value_ = NULL;</div></pre></td></tr></table></figure>
+<h3 id="方法四"><a href="#方法四" class="headerlink" title="方法四"></a>方法四</h3><p>类似于pthread_once， 用c++11中的call_once方法，如下面一段代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;mutex&gt;</span></span></div><div class="line"></div><div class="line"><span class="keyword">static</span> <span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;resume_extractor::DefaultExtractorEngine&gt; kEngine;</div><div class="line"><span class="keyword">static</span> <span class="built_in">std</span>::once_flag kOnceFlag;</div><div class="line"><span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;ExtractorEngine&gt; ExtractorEngine::get_instance() &#123;</div><div class="line">  <span class="built_in">std</span>::call_once(kOnceFlag, []() &#123;</div><div class="line">    kEngine.reset(<span class="keyword">new</span> resume_extractor::DefaultExtractorEngine());</div><div class="line">  &#125;);</div><div class="line">  <span class="keyword">return</span> <span class="built_in">std</span>::dynamic_pointer_cast&lt;ExtractorEngine&gt;(kEngine);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>很方便的实现了单例并每次获得的是单例的智能指针，内存管理更加安全。</p>
+
+	
+	</div>
+</div>
+
+           
+		
            
 			  
 	
@@ -408,15 +443,21 @@
 		<h4>Tag Cloud</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
-			<li><a href="/tags/算法/">算法<span>1</span></a></li>
+			<li><a href="/tags/leetcode/">leetcode<span>2</span></a></li>
+		
+			<li><a href="/tags/C/">C++<span>1</span></a></li>
 		
 			<li><a href="/tags/随笔/">随笔<span>0</span></a></li>
 		
-			<li><a href="/tags/leetcode/">leetcode<span>2</span></a></li>
+			<li><a href="/tags/多线程/">多线程<span>1</span></a></li>
 		
-			<li><a href="/tags/python/">python<span>1</span></a></li>
+			<li><a href="/tags/算法/">算法<span>1</span></a></li>
 		
 			<li><a href="/tags/爬虫/">爬虫<span>1</span></a></li>
+		
+			<li><a href="/tags/设计模式/">设计模式<span>1</span></a></li>
+		
+			<li><a href="/tags/python/">python<span>1</span></a></li>
 		
 		 
 		</ul>
@@ -428,6 +469,10 @@
 <div class="widget">
   <h4>Recent Posts</h4>
   <ul class="entry list-unstyled">
+    
+      <li>
+        <a href="/2016/11/17/C-中如何设计一个线程安全的单例/" ><i class="fa fa-file-o"></i> C++中如何设计一个线程安全的单例</a>
+      </li>
     
       <li>
         <a href="/2016/11/04/CombinationSum/" ><i class="fa fa-file-o"></i>CombinationSum</a>
@@ -443,10 +488,6 @@
     
       <li>
         <a href="/2016/10/11/遐想/" ><i class="fa fa-file-o"></i>遐想</a>
-      </li>
-    
-      <li>
-        <a href="/2016/10/11/乌托邦/" ><i class="fa fa-file-o"></i>乌托邦</a>
       </li>
     
   </ul>
