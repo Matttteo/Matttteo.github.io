@@ -89,159 +89,76 @@
   	<div class="content">
     	 
 
+<%- partial('post/title', {item: item, index: false}) %>
 
-	
-		<div class="page-header page-header-inverse ">		
-			<h1 class="title title-inverse "> 断舍离</h1>
-		</div>		
-	
+<% if (item.shadow ) { %>
+   <style type="text/css">
+           img, video {
+                -webkit-box-shadow:0 0 10px rgba(0, 0, 0, .5);  
+                -moz-box-shadow:0 0 10px rgba(0, 0, 0, .5);  
+                box-shadow:0 0 10px rgba(0, 0, 0, .5);  
+           }
+   </style>
+<% } %>
+<% if (page.comments){ %>  
+        <div class="ds-thread" data-thread-key="<%- item.path %>"></div>  
+<% } %>  
 
-
-
-
-
-
-<div class="row post">
+<div class="row <% if (post) { %>post<% } else { %>page<% } %>">
 	<!-- cols -->
-	
+	<% if (post) { %>
 	<div id="top_meta"></div>
 	<div class="col-md-9">
-	
+	<% } else { %>
+	<div class="col-md-12">
+	<% } %>
 
 	<!-- content -->
 	<div class="mypage">		
-	  		
+	  <% if (item.description) { %>
+		 <div class="alert alert-success description">
+			<i class="fa fa-info-circle"></i> <%- markdown(item.description) %>			
+		 </div> <!-- alert -->
+	  <% } %>		
 
-	  <p>知乎上看到一个问题，如何让自己快速的静下来？有人回答收拾房间，这正符合我。我不是一个整整齐齐的人，但是我也喜欢整理房间，当东西妥妥当当，仿佛我会忘记一些烦恼事，让自己继续前进下去，似乎我又掌控了我的人生。</p>
-<p>今天把自己的书桌整理了一下，已经是乱的不成样子，但是我之前竟然没有察觉。整理他花了一个多小时，其间丢了很多东西，也算是一种断舍离吧。记得高中的时候每次整理完屋子，丢了一些东西后，那种“断舍离”的感觉会强烈一点，一次我说给同学听，同学表示不理解，为什么要连自己的小工艺品也丢了呢，我说这个东西寄托了我无聊时间太多的情绪，丢了他我心情很轻松。于是这样我就可以向前了，于是我更无拘无束了，但是隐隐约约又觉得有所失，后来我又不太爱丢东西了。</p>
-<p>其实连青春都是留不住的。走在冬天的路上，路边的冰用力也踩不破，过了两天居然连水也没留下了。更不用说那些草本植物，一茬换一茬。大自然倾向于替换，我们也是要被替换的东西。所以把旧的替换成新的，这是再正常不过的事情了，这样整个体系才能正常运转。</p>
-<p>在我整理桌子时，发现居然还留着新生报道的手册，顺便又回想了一下自己怎么来的，然后把它丢了。恩，问题来了，丢了这个东西为什么我脑子里还在想呢，就像你搬到了异国他乡身边没有一个东西关于你的亲人，为什么你每时每刻都会想到他们呢，你被关到了监狱里，除了一个衣服身边什么都没有，为什么你还是记挂着自己的老婆孩子呢？物质的环境是一种线索和提醒，比如一辆车提醒了我可以驾车去很多地方，一个舒服的床是接下来我有一个好的睡眠的线索，一个整洁的环境常常能提醒自己凡事安排妥当减轻未知的焦虑，等等。而这些提醒之所以成立，也在于我们心里已经有了这些概念，当物质的线索没了，那些真正的渴望的东西会在精神里找线索。所以整理屋子，实际上是扫除那些令人不快的线索，从这个角度看，也不完全是体力活了。</p>
-<p>因此，断舍离，不是在丢东西，而是一种心理暗示，我很轻松，我丢掉了包袱，被丢了的东西产生的空缺作为这种心里暗示在现实中的线索。</p>
-<p>据说乔布斯的屋子开始一直很空荡荡，因为他只选自己喜欢的东西进来，这算是一种禅境了。</p>
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="http://music.163.com/outchain/player?type=2&id=18795434&auto=1&height=66"></iframe>	  
+	  <%- item.content %>	  
 	</div>
 
 	<div>
   	<center>
-	<div class="pagination">
-<ul class="pagination">
-	 
-		
-          <li class="prev disabled"><a><i class="fa fa-arrow-circle-o-left"></i>Prev</a></li>
-        
-
-        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
-
-		
-		   <li class="next"><a href="/2016/11/17/C-中如何设计一个线程安全的单例/" class="alignright next">Next<i class="fa fa-arrow-circle-o-right"></i></a></li>         
-        
-	
-</ul>
-</div>
-
+	<%- partial('post/pagination', {page: item}) %>
     </center>
 	</div>
 
     <!-- share -->
-    
-        
-    <div class="bdsharebuttonbox">
-        <a href="#" class="bds_more" data-cmd="more"></a>
-        <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
-        <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
-        <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
-        <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
-        <a href="#" class="bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
-        <a href="#" class="bds_evernotecn" data-cmd="evernotecn" title="分享到印象笔记"></a>
-        <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
-        <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
-    </div>
-    <script>
-        window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"24"},"share":{}};
-        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-    </script>
-
-
-        
-
-    
+    <% if (post) { %>
+        <%- partial('post/bdshare', {page: item}) %>
+        <%- partial('post/jiathis', {page: item}) %>
+    <% } %>
 	
 	<!-- comment -->
-	
-<section id="comment">
-  <h2 class="title">Comments</h2>
-
-  
-</section>
-
+	<%- partial('post/comment', {page: item}) %>
 	</div> <!-- col-md-9/col-md-12 -->
 		
-	
+	<% if (post) { %>
 	<div id="side_meta">
-		<div class="col-md-3" id="post_meta"> 
-
-	<!-- date -->
-	
-	<div class="meta-widget">
-	<i class="fa fa-clock-o"></i>
-	2016-11-19 
+		<%- partial('post/meta', {item: item}) %>
 	</div>
-	
-
-	<!-- categories -->
-    
-
-	<!-- tags -->
-	
-	<div class="meta-widget">
-	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
-    <ul id="tags" class="tag_box list-unstyled collapse in">	  
-	    
-  <li><a href="/tags/生活/">生活<span>1</span></a></li>
-    </ul>
-	</div>
-		
-
-	<!-- toc -->
-	<div class="meta-widget">
-	
-	</div>
-	
-    <hr>
-	
-</div><!-- col-md-3 -->
-
-	</div>
-		
+	<% } %>	
 
 </div><!-- row -->
-  
-        <div class="ds-thread" data-thread-key="2016/11/19/断舍离/"></div>  
-  
-
-
+<%- partial('post/comment_footer', {page: item}) %>
 
 	</div>
   </div>
   <div class="container-narrow">
-  <footer> <p>
-  &copy; 2016 Yunhan Bai
-  
+  <footer> <p><% if (config.author){ %>
+  &copy; <%= new Date().getFullYear() %> <%= config.author %>
+  <% } else { %>
+  &copy; <%= new Date().getFullYear() %> <%= config.title %>
+  <% } %>
       with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
-</p>
-
-<script type="text/javascript">  
-var duoshuoQuery = {short_name:"yubai"};  
-        (function() {  
-                var ds = document.createElement('script');  
-                ds.type = 'text/javascript';ds.async = true;  
-                ds.src = 'http://static.duoshuo.com/embed.js';  
-                ds.charset = 'UTF-8';  
-                (document.getElementsByTagName('head')[0]  
-                || document.getElementsByTagName('body')[0]).appendChild(ds);  
-        })();  
-</script>  
- </footer>
+</p> </footer>
 </div> <!-- container-narrow -->
   
 

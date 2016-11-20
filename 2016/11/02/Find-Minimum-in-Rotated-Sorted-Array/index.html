@@ -90,181 +90,76 @@ Find the minimum element.">
   	<div class="content">
     	 
 
+<%- partial('post/title', {item: item, index: false}) %>
 
-	
-		<div class="page-header page-header-inverse ">		
-			<h1 class="title title-inverse "> Find Minimum in Rotated Sorted Array</h1>
-		</div>		
-	
+<% if (item.shadow ) { %>
+   <style type="text/css">
+           img, video {
+                -webkit-box-shadow:0 0 10px rgba(0, 0, 0, .5);  
+                -moz-box-shadow:0 0 10px rgba(0, 0, 0, .5);  
+                box-shadow:0 0 10px rgba(0, 0, 0, .5);  
+           }
+   </style>
+<% } %>
+<% if (page.comments){ %>  
+        <div class="ds-thread" data-thread-key="<%- item.path %>"></div>  
+<% } %>  
 
-
-
-
-
-
-<div class="row post">
+<div class="row <% if (post) { %>post<% } else { %>page<% } %>">
 	<!-- cols -->
-	
+	<% if (post) { %>
 	<div id="top_meta"></div>
 	<div class="col-md-9">
-	
+	<% } else { %>
+	<div class="col-md-12">
+	<% } %>
 
 	<!-- content -->
 	<div class="mypage">		
-	  		
+	  <% if (item.description) { %>
+		 <div class="alert alert-success description">
+			<i class="fa fa-info-circle"></i> <%- markdown(item.description) %>			
+		 </div> <!-- alert -->
+	  <% } %>		
 
-	  <blockquote>
-<p>Suppose a sorted array is rotated at some pivot unknown to you beforehand.</p>
-<p>(i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).</p>
-<p>Find the minimum element.</p>
-<p>You may assume no duplicate exists in the array.</p>
-</blockquote>
-<p>直接上代码</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">class</span> Solution&#123;</div><div class="line"><span class="keyword">public</span>:</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">int</span> <span class="title">findMin</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span></span>&#123;</div><div class="line">    	<span class="keyword">int</span> n = nums.size();</div><div class="line">        <span class="keyword">if</span>(n == <span class="number">1</span>) <span class="keyword">return</span> nums[<span class="number">0</span>];</div><div class="line">        </div><div class="line">        <span class="keyword">int</span> lo = <span class="number">0</span>; <span class="keyword">int</span> hi = n<span class="number">-1</span>;</div><div class="line">        <span class="keyword">while</span>(lo &lt; hi)&#123;</div><div class="line">        	<span class="keyword">int</span> mid = (lo + hi) &gt;&gt; <span class="number">1</span>;</div><div class="line">            <span class="keyword">if</span>(mid &gt; <span class="number">0</span> &amp;&amp; nums[mid] &lt; nums[mid - <span class="number">1</span>])&#123;</div><div class="line">            	<span class="keyword">return</span> nums[mid];</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(nums[mid] &gt; nums[hi])&#123;</div><div class="line">            	lo = mid + <span class="number">1</span>;</div><div class="line">             &#125;</div><div class="line">            <span class="keyword">else</span>&#123;</div><div class="line">            	hi = mid - <span class="number">1</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> nums[lo];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>思路是二分查找。</p>
-<ol>
-<li>当中间指针指向的元素不是第一个元素并且小于其后面的元素的时候，输出。</li>
-<li>当中间指针的元素大于其右指针元素时，取其右边。</li>
-<li>否则取其左边。</li>
-</ol>
-<p>当允许数组中有重复元素的时候：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">findMin</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span></span>&#123;</div><div class="line">	<span class="keyword">int</span> lo = <span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> hi = nums.size() - <span class="number">1</span>;</div><div class="line">    <span class="keyword">int</span> mid = <span class="number">0</span>;</div><div class="line">    <span class="keyword">while</span>(lo &lt; hi)&#123;</div><div class="line">    	mid = lo + (hi - lo) &gt;&gt; <span class="number">1</span>;</div><div class="line">        <span class="keyword">if</span>(mid &gt; <span class="number">0</span> &amp;&amp; nums[mid] &lt; nums[mid - <span class="number">1</span>]) <span class="keyword">return</span> nums[mid];</div><div class="line">        <span class="keyword">if</span>(nums[mid] &gt; nums[hi])&#123;</div><div class="line">        	lo = mid + <span class="number">1</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(nums[mid] &lt; nums[hi])&#123;</div><div class="line">        	hi = mid - <span class="number">1</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span>&#123;</div><div class="line">        	hi--;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> nums[lo];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>与上题不一样的地方在于，如果中间指针和右指针元素大小相同的情况下，将右指针左移一位就可以了。</p>
-	  
+	  <%- item.content %>	  
 	</div>
 
 	<div>
   	<center>
-	<div class="pagination">
-<ul class="pagination">
-	 
-				
-    	<li class="prev"><a href="/2016/11/04/pythonQA01/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>Prev</a></li>
-  		
-
-        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
-
-		
-		   <li class="next"><a href="/2016/10/11/遐想/" class="alignright next">Next<i class="fa fa-arrow-circle-o-right"></i></a></li>         
-        
-	
-</ul>
-</div>
-
+	<%- partial('post/pagination', {page: item}) %>
     </center>
 	</div>
 
     <!-- share -->
-    
-        
-    <div class="bdsharebuttonbox">
-        <a href="#" class="bds_more" data-cmd="more"></a>
-        <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
-        <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
-        <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
-        <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
-        <a href="#" class="bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
-        <a href="#" class="bds_evernotecn" data-cmd="evernotecn" title="分享到印象笔记"></a>
-        <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
-        <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
-    </div>
-    <script>
-        window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"24"},"share":{}};
-        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-    </script>
-
-
-        
-
-    
+    <% if (post) { %>
+        <%- partial('post/bdshare', {page: item}) %>
+        <%- partial('post/jiathis', {page: item}) %>
+    <% } %>
 	
 	<!-- comment -->
-	
-<section id="comment">
-  <h2 class="title">Comments</h2>
-
-  
-</section>
-
+	<%- partial('post/comment', {page: item}) %>
 	</div> <!-- col-md-9/col-md-12 -->
 		
-	
+	<% if (post) { %>
 	<div id="side_meta">
-		<div class="col-md-3" id="post_meta"> 
-
-	<!-- date -->
-	
-	<div class="meta-widget">
-	<i class="fa fa-clock-o"></i>
-	2016-11-02 
+		<%- partial('post/meta', {item: item}) %>
 	</div>
-	
-
-	<!-- categories -->
-    
-	<div class="meta-widget">
-	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
-    <ul id="categorys" class="tag_box list-unstyled collapse in">
-          
-  <li>
-    <li><a href="/categories/算法/">算法<span>2</span></a></li>
-  </li>
-
-    </ul>
-	</div>
-	
-
-	<!-- tags -->
-	
-	<div class="meta-widget">
-	<a data-toggle="collapse" data-target="#tags"><i class="fa fa-tags"></i></a>		  
-    <ul id="tags" class="tag_box list-unstyled collapse in">	  
-	    
-  <li><a href="/tags/leetcode/">leetcode<span>2</span></a></li>
-    </ul>
-	</div>
-		
-
-	<!-- toc -->
-	<div class="meta-widget">
-	
-	</div>
-	
-    <hr>
-	
-</div><!-- col-md-3 -->
-
-	</div>
-		
+	<% } %>	
 
 </div><!-- row -->
-  
-        <div class="ds-thread" data-thread-key="2016/11/02/Find-Minimum-in-Rotated-Sorted-Array/"></div>  
-  
-
-
+<%- partial('post/comment_footer', {page: item}) %>
 
 	</div>
   </div>
   <div class="container-narrow">
-  <footer> <p>
-  &copy; 2016 Yunhan Bai
-  
+  <footer> <p><% if (config.author){ %>
+  &copy; <%= new Date().getFullYear() %> <%= config.author %>
+  <% } else { %>
+  &copy; <%= new Date().getFullYear() %> <%= config.title %>
+  <% } %>
       with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
-</p>
-
-<script type="text/javascript">  
-var duoshuoQuery = {short_name:"yubai"};  
-        (function() {  
-                var ds = document.createElement('script');  
-                ds.type = 'text/javascript';ds.async = true;  
-                ds.src = 'http://static.duoshuo.com/embed.js';  
-                ds.charset = 'UTF-8';  
-                (document.getElementsByTagName('head')[0]  
-                || document.getElementsByTagName('body')[0]).appendChild(ds);  
-        })();  
-</script>  
- </footer>
+</p> </footer>
 </div> <!-- container-narrow -->
   
 
