@@ -89,76 +89,176 @@
   	<div class="content">
     	 
 
-<%- partial('post/title', {item: item, index: false}) %>
 
-<% if (item.shadow ) { %>
-   <style type="text/css">
-           img, video {
-                -webkit-box-shadow:0 0 10px rgba(0, 0, 0, .5);  
-                -moz-box-shadow:0 0 10px rgba(0, 0, 0, .5);  
-                box-shadow:0 0 10px rgba(0, 0, 0, .5);  
-           }
-   </style>
-<% } %>
-<% if (page.comments){ %>  
-        <div class="ds-thread" data-thread-key="<%- item.path %>"></div>  
-<% } %>  
+	
+		<div class="page-header page-header-inverse ">		
+			<h1 class="title title-inverse "> Brand new day</h1>
+		</div>		
+	
 
-<div class="row <% if (post) { %>post<% } else { %>page<% } %>">
+
+
+
+
+
+<div class="row post">
 	<!-- cols -->
-	<% if (post) { %>
+	
 	<div id="top_meta"></div>
 	<div class="col-md-9">
-	<% } else { %>
-	<div class="col-md-12">
-	<% } %>
+	
 
 	<!-- content -->
 	<div class="mypage">		
-	  <% if (item.description) { %>
-		 <div class="alert alert-success description">
-			<i class="fa fa-info-circle"></i> <%- markdown(item.description) %>			
-		 </div> <!-- alert -->
-	  <% } %>		
+	  		
 
-	  <%- item.content %>	  
+	  <p>今天的风很大，空气被吹的很干净，抬头一看云彩和太阳很清晰的展现给你，让我忘记自己五百多度的近视，就像是加了个滤镜。低头一看，和她相视一笑，我们在风中被刮的好凌乱。</p>
+<p><center><br><img src="https://github.com/Matttteo/blog/blob/master/imgs/1253118041.jpg?raw=true" width="500" height="500" alt="sky"><br></center><br>突然间想去吃一些以前没吃过的东西，我知道我以前在吃方面是个很单调的人，食物就是为了补充蛋白质，可是吃点其他的也未尝不可，当然前提是要好吃才行。</p>
+<p>晚上去听了爱奇艺宣讲会，感觉是个很娱乐的公司。了解到一个说法，网络文学是其他内容的诞生地，网络小说可以改编成电视剧电影和游戏。我的感觉网络小说是一片杂草地，有一些很好的精品也有很多很烂的东西。网络小说又不受什么监管，确实在这种环境下容易诞生出一些很强的内容。由此来看，科技公司重视网络小说这一块是有其道理的。<br>还有一个感受，现在新时代的优秀年轻人越来越有个性，也更有想法，工作更像是在玩，同时又有态度，让我觉得以后的社会会更好。但是另一方面，我们又过于世故，也是蛮矛盾的一种存在。</p>
+<p>可能，你各种踌躇和焦虑原因是你不开心而已，你看到什么都在比较都在不开心，于是所有事情都变成了一种暂缓之计，没有什么值得特别开心的，正如没有什么值得真正的伤心的。人生毕竟不能永远的进行下去，翻过这一页就是下一页，当下的得失计较的太清楚会让自己成为一个狭隘的人。</p>
+<p>Stone rose的这首歌不错，照片是中午拍的天空。</p>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="http://music.163.com/outchain/player?type=2&id=21941935&auto=0&height=66"></iframe>
+	  
 	</div>
 
 	<div>
   	<center>
-	<%- partial('post/pagination', {page: item}) %>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2016/10/11/乌托邦/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>Anterior</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2016/10/10/hello/" class="alignright next">Próximo<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
     </center>
 	</div>
 
     <!-- share -->
-    <% if (post) { %>
-        <%- partial('post/bdshare', {page: item}) %>
-        <%- partial('post/jiathis', {page: item}) %>
-    <% } %>
+    
+        
+    <div class="bdsharebuttonbox">
+        <a href="#" class="bds_more" data-cmd="more"></a>
+        <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+        <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+        <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+        <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+        <a href="#" class="bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+        <a href="#" class="bds_evernotecn" data-cmd="evernotecn" title="分享到印象笔记"></a>
+        <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+        <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+    </div>
+    <script>
+        window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"24"},"share":{}};
+        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+    </script>
+
+
+        
+
+    
 	
 	<!-- comment -->
-	<%- partial('post/comment', {page: item}) %>
+	
+<section id="comment">
+  <h2 class="title">Comentários</h2>
+
+  
+  	 <div class="ds-thread" data-thread-key="2016/10/10/Brand-new-day/" data-title="Brand new day" data-url="http://yoursite.com/2016/10/10/Brand-new-day/"></div>  
+  
+</section>
+
 	</div> <!-- col-md-9/col-md-12 -->
 		
-	<% if (post) { %>
+	
 	<div id="side_meta">
-		<%- partial('post/meta', {item: item}) %>
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2016-10-10 
 	</div>
-	<% } %>	
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/categories/随笔/">随笔<span>2</span></a></li>
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
 
 </div><!-- row -->
-<%- partial('post/comment_footer', {page: item}) %>
+  
+        <div class="ds-thread" data-thread-key="2016/10/10/Brand-new-day/"></div>  
+  
+
+<script type="text/javascript">
+  var duoshuoQuery = { short_name: 'yubai' };
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';
+    ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+
+
 
 	</div>
   </div>
   <div class="container-narrow">
-  <footer> <p><% if (config.author){ %>
-  &copy; <%= new Date().getFullYear() %> <%= config.author %>
-  <% } else { %>
-  &copy; <%= new Date().getFullYear() %> <%= config.title %>
-  <% } %>
+  <footer> <p>
+  &copy; 2016 Yunhan Bai
+  
       with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
-</p> </footer>
+</p>
+
+<script type="text/javascript">  
+var duoshuoQuery = {short_name:"yubai"};  
+        (function() {  
+                var ds = document.createElement('script');  
+                ds.type = 'text/javascript';ds.async = true;  
+                ds.src = 'http://static.duoshuo.com/embed.js';  
+                ds.charset = 'UTF-8';  
+                (document.getElementsByTagName('head')[0]  
+                || document.getElementsByTagName('body')[0]).appendChild(ds);  
+        })();  
+</script>  
+ </footer>
 </div> <!-- container-narrow -->
   
 

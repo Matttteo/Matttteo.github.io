@@ -89,76 +89,165 @@
   	<div class="content">
     	 
 
-<%- partial('post/title', {item: item, index: false}) %>
 
-<% if (item.shadow ) { %>
-   <style type="text/css">
-           img, video {
-                -webkit-box-shadow:0 0 10px rgba(0, 0, 0, .5);  
-                -moz-box-shadow:0 0 10px rgba(0, 0, 0, .5);  
-                box-shadow:0 0 10px rgba(0, 0, 0, .5);  
-           }
-   </style>
-<% } %>
-<% if (page.comments){ %>  
-        <div class="ds-thread" data-thread-key="<%- item.path %>"></div>  
-<% } %>  
+	
+		<div class="page-header page-header-inverse ">		
+			<h1 class="title title-inverse "> Oasis, Radiohead, Blur, The stone roses</h1>
+		</div>		
+	
 
-<div class="row <% if (post) { %>post<% } else { %>page<% } %>">
+
+
+
+
+
+<div class="row post">
 	<!-- cols -->
-	<% if (post) { %>
+	
 	<div id="top_meta"></div>
 	<div class="col-md-9">
-	<% } else { %>
-	<div class="col-md-12">
-	<% } %>
+	
 
 	<!-- content -->
 	<div class="mypage">		
-	  <% if (item.description) { %>
-		 <div class="alert alert-success description">
-			<i class="fa fa-info-circle"></i> <%- markdown(item.description) %>			
-		 </div> <!-- alert -->
-	  <% } %>		
+	  		
 
-	  <%- item.content %>	  
+	  <p>这几个乐队是我目前最喜欢的几个乐队，凑巧都是英伦摇滚，我也不是一种只听某种口味的乐迷，只是英伦摇滚确实是好听。</p>
+<p>首先推荐的是Oasis的《definitely maybe》，里面好听的太多了，可以反复重复听好几遍。特点是简单直接，旋律动人，满满的少年心气。Liam 的嗓音就像一个孩子一样，Noel在这个首专里没有唱，其实Noel心里也是很柔软的。Noel说他和Liam唱supersonic的时候体验是兄弟一条心的感觉，但是在现实中简直你死我活，也是非常奇怪。</p>
+<p>然后是Radiohead，主唱Yorke是一个看上去有点神经质的天才。Radiohead比Oasis好的一点是他们不乱搞，可以静下来搞一些概念的东西。《OK, computer》这张专辑是我第一次接触radiohead听的，这张专辑有一个完整的概念，同时又不是那种跳大神或者太先锋的音乐，单纯的把这种专辑当成一个摇滚专辑听你也不会失望。这种感觉就像听The beatles的《Sgt. Pepper’s Lonely Hearts Club Band》。</p>
+<p>Blur和Oasis是同一时期的两个不相上下的乐队，可能Blur比Oasis“有出息”一点，曲风更多变，又不像Radiohead那样阴郁，弱点在那种优美的旋律少了点，但是也不是没有，tender， you are so great就很好听，还有新专辑里的ong ong。抛却掉商业上的包装，blur的音乐就是那种各个方面都很好的摇滚乐，优质生，不脏，一上来你可能觉得不是那么好听，但是只要稍稍进入点状态就感觉他们确实很厉害。推荐他们的同名专辑《blur》。</p>
+<p>The stone roses比之前几个乐队要早一点，说影响了后来的乐队一点也不夸张。一开始我是听惯了Oasis和blur去听石玫瑰的，感觉好像不够爆炸，直到最近我听了Oasis的lost tape，感觉似曾相识，好像挺像石玫瑰的，然后我又去听了《The Stone Roses》，这次就真的感觉爆炸了，各方面的冲击，觉得特别好。你考虑到他们还是自己搞出来的，搞出自己的味道，以前从来没有的，就更觉得厉害。</p>
+<p>当从这几张专辑里走出来，再去听一些模仿的，没特点的，不好听更谈不上爆炸的乐队，真的感觉他们差距挺大的。</p>
+	  
 	</div>
 
 	<div>
   	<center>
-	<%- partial('post/pagination', {page: item}) %>
+	<div class="pagination">
+<ul class="pagination">
+	 
+		
+          <li class="prev disabled"><a><i class="fa fa-arrow-circle-o-left"></i>Anterior</a></li>
+        
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2016/11/19/断舍离/" class="alignright next">Próximo<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
     </center>
 	</div>
 
     <!-- share -->
-    <% if (post) { %>
-        <%- partial('post/bdshare', {page: item}) %>
-        <%- partial('post/jiathis', {page: item}) %>
-    <% } %>
+    
+        
+    <div class="bdsharebuttonbox">
+        <a href="#" class="bds_more" data-cmd="more"></a>
+        <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+        <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+        <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+        <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+        <a href="#" class="bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+        <a href="#" class="bds_evernotecn" data-cmd="evernotecn" title="分享到印象笔记"></a>
+        <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+        <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+    </div>
+    <script>
+        window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"24"},"share":{}};
+        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+    </script>
+
+
+        
+
+    
 	
 	<!-- comment -->
-	<%- partial('post/comment', {page: item}) %>
+	
+<section id="comment">
+  <h2 class="title">Comentários</h2>
+
+  
+  	 <div class="ds-thread" data-thread-key="2016/11/21/Oasis-Radiohead-Blur-The-stone-roses/" data-title="Oasis, Radiohead, Blur, The stone roses" data-url="http://yoursite.com/2016/11/21/Oasis-Radiohead-Blur-The-stone-roses/"></div>  
+  
+</section>
+
 	</div> <!-- col-md-9/col-md-12 -->
 		
-	<% if (post) { %>
+	
 	<div id="side_meta">
-		<%- partial('post/meta', {item: item}) %>
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2016-11-21 
 	</div>
-	<% } %>	
+	
+
+	<!-- categories -->
+    
+
+	<!-- tags -->
+		
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
 
 </div><!-- row -->
-<%- partial('post/comment_footer', {page: item}) %>
+  
+        <div class="ds-thread" data-thread-key="2016/11/21/Oasis-Radiohead-Blur-The-stone-roses/"></div>  
+  
+
+<script type="text/javascript">
+  var duoshuoQuery = { short_name: 'yubai' };
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';
+    ds.async = true;
+    ds.src = 'http://static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+
+
 
 	</div>
   </div>
   <div class="container-narrow">
-  <footer> <p><% if (config.author){ %>
-  &copy; <%= new Date().getFullYear() %> <%= config.author %>
-  <% } else { %>
-  &copy; <%= new Date().getFullYear() %> <%= config.title %>
-  <% } %>
+  <footer> <p>
+  &copy; 2016 Yunhan Bai
+  
       with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
-</p> </footer>
+</p>
+
+<script type="text/javascript">  
+var duoshuoQuery = {short_name:"yubai"};  
+        (function() {  
+                var ds = document.createElement('script');  
+                ds.type = 'text/javascript';ds.async = true;  
+                ds.src = 'http://static.duoshuo.com/embed.js';  
+                ds.charset = 'UTF-8';  
+                (document.getElementsByTagName('head')[0]  
+                || document.getElementsByTagName('body')[0]).appendChild(ds);  
+        })();  
+</script>  
+ </footer>
 </div> <!-- container-narrow -->
   
 
