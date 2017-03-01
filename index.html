@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-  <meta charset="utf-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   
   <title>Yunhan</title>
   <meta name="author" content="Yunhan Bai">
@@ -32,7 +32,7 @@
 
   <script src="/js/jquery-2.0.3.min.js"></script>
 
-  <!-- analytics -->
+  <!-- analytics --><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -40,7 +40,7 @@
 </head>
 
  <body>  
-  <nav id="main-nav" class="navbar navbar-inverse navbar-default navbar-fixed-top" role="navigation">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><nav id="main-nav" class="navbar navbar-inverse navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
       <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 	<span class="sr-only">Toggle navigation</span>
@@ -127,9 +127,70 @@
 		
             
 		
+            
+		
+            
+		
         
         <!-- render other articles -->
         
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-03-01 </div>
+			<div class="article-title"><a href="/2017/03/01/求和最大的子矩阵/" >求和最大的子矩阵.md</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<p>在微软面试的时候被问道一个题目，给一个m乘n的矩阵，矩阵内为一些值，现在求一个所有元素和最大的子矩阵。如矩阵<br>4    2   5<br>3   -4   5<br>2    1  -10<br>元素和最大的子矩阵为：<br>4     2    5<br>3   -4    5</p>
+<p>首先考虑矩阵为一维的情况，我们的矩阵现在是一个数组$A = { a_1 , a_2, … ,a_n }$，现在要输出的是最大的子数组$a_i ~ a_j$。我们设置一个滑动窗口，窗口的左端x和右端y初始都设为下标为零处，我们再使用一个值res标记目前出现的，和最大的窗口值。然后我们从零开始迭代滑动窗口的右侧下标y。</p>
+<ol>
+<li>当$a_x + .. + a_y = sum&gt; 0$ ，取$res = max(res, sum)$，$y = y + 1$;</li>
+<li>当$a_x + .. + a_y = sum &lt;= 0$, $x = x + 1; y = y + 1$</li>
+<li>当 y &gt; n时，结束循环，最大值为res。<br>在上面这个过程中，可以很方便的将窗口左右端也保存，这样就可以找到最大子数组的具体位置了。这个算法的时间复杂度为$O(n)$。</li>
+</ol>
+<p>将一维情况推到二维矩阵$A = {a_11, a_12, …, a_1m, …., a_n1, a_n2, … , a_nm}$，如果使用暴力法，显然算法复杂度高达$O(n^4)$。<br>我们考虑利用一维的结果，首先我们计算一下所有的$r_i ~ r_j$（$1 &lt;= i, j &lt;= n$ )行的矩阵和，其结果为一个数列$B_ij = {b_1, b_2, …,b_m}, 其中b_k = a<em>ik + a</em>{(i+1)k} + … +a_jk$。获得$B<em>ij$后，我们在上面执行一维的算法，找出最大的子数列$B</em>{ij}[x ~y]$及其值$res_ij$这时候我们就找到了以$i, j$为行边界条件下元素和最大的一个子矩阵，与其值$res_ij$，我们只需要遍历所有$i, j$的组合，就可以找到全局和最大的子矩阵与其值$res$了。<br>在计算$B_ij$的时候，我们不必每次都求一次和，我们可以利用先计算累加和，利用累加和结果加快运算，具体见代码。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"><span class="keyword">struct</span> Res &#123;</div><div class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</div><div class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; idxs = &#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>&#125;;</div><div class="line">&#125;;</div><div class="line"><span class="function">Res <span class="title">MaxSumSubMatrix</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt;&amp; matrix)</span> </span>&#123;</div><div class="line">    Res r;</div><div class="line">    <span class="keyword">int</span> n_rows = matrix.size();</div><div class="line">    <span class="keyword">if</span> (n_rows == <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">return</span> r;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">int</span> n_cols = matrix[<span class="number">0</span>].size();</div><div class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; sum(n_rows + <span class="number">1</span>, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(n_cols, <span class="number">0</span>));</div><div class="line">    sum[<span class="number">0</span>] = <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(n_cols, <span class="number">0</span>);</div><div class="line">    sum[<span class="number">1</span>] = matrix[<span class="number">0</span>];</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= n_rows; ++i) &#123;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n_cols; ++j) &#123;</div><div class="line">            sum[i][j] = sum[i - <span class="number">1</span>][j] + matrix[i - <span class="number">1</span>][j];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n_rows; ++i) &#123;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &lt; n_rows; ++j) &#123;</div><div class="line">            <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; cur_row(n_cols);</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; n_cols; ++k) &#123;</div><div class="line">                cur_row[k] = sum[j + <span class="number">1</span>][k] - sum[i][k];</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">int</span> right = <span class="number">0</span>;</div><div class="line">            <span class="keyword">int</span> left = <span class="number">0</span>;</div><div class="line">            <span class="keyword">int</span> cur_sum = <span class="number">0</span>;</div><div class="line">            <span class="keyword">while</span> (right &lt; n_cols) &#123;</div><div class="line">                cur_sum += cur_row[right];</div><div class="line">                <span class="keyword">if</span> (cur_sum &gt; <span class="number">0</span>) &#123;</div><div class="line">                    r.sum = max(r.sum, cur_sum);</div><div class="line">                    r.idxs = &#123; i, j, left, right &#125;;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">else</span> &#123;</div><div class="line">                    left = right + <span class="number">1</span>;</div><div class="line">                    cur_sum = <span class="number">0</span>;</div><div class="line">                &#125;</div><div class="line">                right++;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> r;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+	
+	</div>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-02-13 </div>
+			<div class="article-title"><a href="/2017/02/13/春天来了/" >春天来了</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<p>经过临校的水池，走过独木桥时发现水里有很多黑色的鱼子一样的东西，一条条的聚集在一起，缠绕在水草上。</p>
+<p>前几天的冷风现在没有了，空气温柔舒服，太阳照在身上让人开心。冷清的街道变得越来越热闹，于是你可以碰到更多的人，可能你还会认识一些以前没认识的人。</p>
+<p>热情的迎接新的一年吧～</p>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="450" src="//music.163.com/outchain/player?type=1&id=34439086&auto=1&height=430"></iframe>
+
+	
+	</div>
+</div>
+
+           
+		
            
 			  
 	
@@ -405,58 +466,6 @@
 
            
 		
-           
-			  
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2016-10-11 </div>
-			<div class="article-title"><a href="/2016/10/11/乌托邦/" >乌托邦</a></div>						
-		</h3>
-	
-
-
-			  <div class="entry">
-  <div class="row">
-	
-	
-		<p>人类从未停止关于乌托邦的设想，从哲人国到天堂再到共产主义社会。另外一方面，人类也在不停反思乌托邦是否真的存在？乌托邦是否真的可行？你生长的一方水土，甚至你的地球，本身是否一定要被超越，要去到另外一个更加美好的新世界，还是留在原地，安于天命的安排？</p>
-<p><center><br><img src="https://github.com/Matttteo/blog/blob/master/imgs/p2378730299.jpg?raw=true" width="500" height="500" alt="sky"><br></center><br>当你重视你的精神生活的时候，这些问题总会进入你脑海，但你不急于马上解决他然后行动，甚至你根本不想解决他。每个人都有自己隐秘的一套方法，用于自圆其说和形成自己的观点，并没有什么放之四海而皆准的公理，你也不能用那种奴隶式的思维方式试图解决所有问题然后马上开干，思考就可以了，其他的什么也不要想。</p>
-
-	
-	</div>
-</div>
-
-           
-		
-           
-			  
-	
-	<!-- display as entry -->	
-		<h3 class="title">
-			<div class="date"> 2016-10-10 </div>
-			<div class="article-title"><a href="/2016/10/10/Brand-new-day/" >Brand new day</a></div>						
-		</h3>
-	
-
-
-			  <div class="entry">
-  <div class="row">
-	
-	
-		<p>今天的风很大，空气被吹的很干净，抬头一看云彩和太阳很清晰的展现给你，让我忘记自己五百多度的近视，就像是加了个滤镜。低头一看，和她相视一笑，我们在风中被刮的好凌乱。</p>
-<p><center><br><img src="https://github.com/Matttteo/blog/blob/master/imgs/1253118041.jpg?raw=true" width="500" height="500" alt="sky"><br></center><br>突然间想去吃一些以前没吃过的东西，我知道我以前在吃方面是个很单调的人，食物就是为了补充蛋白质，可是吃点其他的也未尝不可，当然前提是要好吃才行。</p>
-<p>晚上去听了爱奇艺宣讲会，感觉是个很娱乐的公司。了解到一个说法，网络文学是其他内容的诞生地，网络小说可以改编成电视剧电影和游戏。我的感觉网络小说是一片杂草地，有一些很好的精品也有很多很烂的东西。网络小说又不受什么监管，确实在这种环境下容易诞生出一些很强的内容。由此来看，科技公司重视网络小说这一块是有其道理的。<br>还有一个感受，现在新时代的优秀年轻人越来越有个性，也更有想法，工作更像是在玩，同时又有态度，让我觉得以后的社会会更好。但是另一方面，我们又过于世故，也是蛮矛盾的一种存在。</p>
-<p>可能，你各种踌躇和焦虑原因是你不开心而已，你看到什么都在比较都在不开心，于是所有事情都变成了一种暂缓之计，没有什么值得特别开心的，正如没有什么值得真正的伤心的。人生毕竟不能永远的进行下去，翻过这一页就是下一页，当下的得失计较的太清楚会让自己成为一个狭隘的人。</p>
-<p>Stone rose的这首歌不错，照片是中午拍的天空。</p>
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="http://music.163.com/outchain/player?type=2&id=21941935&auto=0&height=66"></iframe>
-
-	
-	</div>
-</div>
-
-           
-		
 
 		</div>
 
@@ -467,13 +476,13 @@
 <ul class="pagination">
 	 
 		
-          <li class="prev disabled"><a><i class="fa fa-arrow-circle-o-left"></i>上一页</a></li>
+          <li class="prev disabled"><a><i class="fa fa-arrow-circle-o-left"></i>Prev</a></li>
         
 
         <li><a href="/"><i class="fa fa-home"></i>Home</a></li>
 
 		
-		   <li class="next"> <a href="/page/2/" class="alignright next">下一页<i class="fa fa-arrow-circle-o-right"></i></a> </li>          
+		   <li class="next"> <a href="/page/2/" class="alignright next">Next<i class="fa fa-arrow-circle-o-right"></i></a> </li>          
         
 	
 </ul>
@@ -493,7 +502,7 @@
 			
   <div id="site_search">
    <div class="form-group">
-    <input type="text" id="local-search-input" name="q" results="0" placeholder="搜索" class="st-search-input st-default-search-input form-control"/>
+    <input type="text" id="local-search-input" name="q" results="0" placeholder="Search" class="st-search-input st-default-search-input form-control"/>
    </div>  
   <div id="local-search-result"></div>
   </div>
@@ -502,7 +511,7 @@
 		
 			
 	<div class="widget">
-		<h4>分类</h4>
+		<h4>Categories</h4>
 		<ul class="tag_box inline list-unstyled">
 		
 			<li><a href="/categories/算法/">算法<span>2</span></a></li>
@@ -515,24 +524,28 @@
 		
 			
 	<div class="widget">
-		<h4>标签云</h4>
+		<h4>Tag Cloud</h4>
 		<ul class="tag_box inline list-unstyled">		
 		
 			<li><a href="/tags/多线程/">多线程<span>1</span></a></li>
 		
-			<li><a href="/tags/leetcode/">leetcode<span>2</span></a></li>
-		
-			<li><a href="/tags/爬虫/">爬虫<span>1</span></a></li>
-		
 			<li><a href="/tags/python/">python<span>1</span></a></li>
 		
-			<li><a href="/tags/C/">C++<span>1</span></a></li>
+			<li><a href="/tags/随笔/">随笔<span>0</span></a></li>
 		
-			<li><a href="/tags/算法/">算法<span>1</span></a></li>
+			<li><a href="/tags/微软/">微软<span>1</span></a></li>
+		
+			<li><a href="/tags/leetcode/">leetcode<span>2</span></a></li>
+		
+			<li><a href="/tags/算法/">算法<span>2</span></a></li>
 		
 			<li><a href="/tags/生活/">生活<span>1</span></a></li>
 		
-			<li><a href="/tags/随笔/">随笔<span>0</span></a></li>
+			<li><a href="/tags/爬虫/">爬虫<span>1</span></a></li>
+		
+			<li><a href="/tags/动态规划/">动态规划<span>1</span></a></li>
+		
+			<li><a href="/tags/C/">C++<span>1</span></a></li>
 		
 			<li><a href="/tags/设计模式/">设计模式<span>1</span></a></li>
 		
@@ -544,8 +557,16 @@
 		
 			
 <div class="widget">
-  <h4>最新文章</h4>
+  <h4>Recent Posts</h4>
   <ul class="entry list-unstyled">
+    
+      <li>
+        <a href="/2017/03/01/求和最大的子矩阵/" ><i class="fa fa-file-o"></i>求和最大的子矩阵.md</a>
+      </li>
+    
+      <li>
+        <a href="/2017/02/13/春天来了/" ><i class="fa fa-file-o"></i>春天来了</a>
+      </li>
     
       <li>
         <a href="/2017/01/23/我所不能了解的事/" ><i class="fa fa-file-o"></i>我所不能了解的事</a>
@@ -559,21 +580,13 @@
         <a href="/2016/11/19/断舍离/" ><i class="fa fa-file-o"></i>断舍离</a>
       </li>
     
-      <li>
-        <a href="/2016/11/17/C-中如何设计一个线程安全的单例/" ><i class="fa fa-file-o"></i> C++中如何设计一个线程安全的单例</a>
-      </li>
-    
-      <li>
-        <a href="/2016/11/04/CombinationSum/" ><i class="fa fa-file-o"></i>CombinationSum</a>
-      </li>
-    
   </ul>
 </div>
 
 		
 			
 <div class="widget">
-	<h4>链接</h4>
+	<h4>Links</h4>
 	<ul class="blogroll list-unstyled">
 	
 		<li><i class="fa fa-github"></i><a href="https://github.com/wzpan/freemind/" title="Freemind's Github repository." target="_blank"]);">Freemind</a></li>
@@ -638,7 +651,7 @@ var duoshuoQuery = {short_name:"yubai"};
 (function($){
   $('.fancybox').fancybox();
 })(jQuery);
-</script>
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 
 
