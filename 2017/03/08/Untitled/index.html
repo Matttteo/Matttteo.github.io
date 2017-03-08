@@ -84,16 +84,35 @@
 
 
 
-<meta name="description" content="Hello world!">
+<meta name="description" content="[TOC] 
+前言这个东西是nju计算机系统基础，也就是计算机组成原理课的PA，内容主要是要实现一个类似qemu简化版的nemu。要做的内容见其文档，主要要做的东西在这个图下面。
+
+内核部分暂时不用自己写，主要是虚拟出来一个cpu，自己去完成指令的译码执行等。虚拟的魔术主要发生在：
+
+模拟了寄存器，并且按照汇编级的代码去运行程序。也就是寄存器搬来搬去，cpu去完成逻辑运算，但是其实逻辑运算还有寄存">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hello">
-<meta property="og:url" content="http://yoursite.com/2016/10/10/hello/index.html">
+<meta property="og:title" content="PA0">
+<meta property="og:url" content="http://yoursite.com/2017/03/08/Untitled/index.html">
 <meta property="og:site_name" content="Yunhan">
-<meta property="og:description" content="Hello world!">
-<meta property="og:updated_time" content="2016-10-09T17:18:02.000Z">
+<meta property="og:description" content="[TOC] 
+前言这个东西是nju计算机系统基础，也就是计算机组成原理课的PA，内容主要是要实现一个类似qemu简化版的nemu。要做的内容见其文档，主要要做的东西在这个图下面。
+
+内核部分暂时不用自己写，主要是虚拟出来一个cpu，自己去完成指令的译码执行等。虚拟的魔术主要发生在：
+
+模拟了寄存器，并且按照汇编级的代码去运行程序。也就是寄存器搬来搬去，cpu去完成逻辑运算，但是其实逻辑运算还有寄存">
+<meta property="og:image" content="https://raw.githubusercontent.com/Matttteo/images/master/pa.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Matttteo/images/master/docker1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Matttteo/images/master/docker2.png">
+<meta property="og:updated_time" content="2017-03-08T13:15:12.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="hello">
-<meta name="twitter:description" content="Hello world!">
+<meta name="twitter:title" content="PA0">
+<meta name="twitter:description" content="[TOC] 
+前言这个东西是nju计算机系统基础，也就是计算机组成原理课的PA，内容主要是要实现一个类似qemu简化版的nemu。要做的内容见其文档，主要要做的东西在这个图下面。
+
+内核部分暂时不用自己写，主要是虚拟出来一个cpu，自己去完成指令的译码执行等。虚拟的魔术主要发生在：
+
+模拟了寄存器，并且按照汇编级的代码去运行程序。也就是寄存器搬来搬去，cpu去完成逻辑运算，但是其实逻辑运算还有寄存">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/Matttteo/images/master/pa.png">
 
 
 
@@ -114,10 +133,10 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/10/10/hello/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/03/08/Untitled/"/>
 
 
-  <title> hello | Yunhan </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> PA0 | Yunhan </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="en">
@@ -237,7 +256,7 @@
             
             
               
-                hello
+                PA0
               
             
           </h1>
@@ -249,8 +268,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-10-10T01:17:19+08:00" content="2016-10-10">
-              2016-10-10
+            <time itemprop="dateCreated" datetime="2017-03-08T21:14:54+08:00" content="2017-03-08">
+              2017-03-08
             </time>
           </span>
 
@@ -260,8 +279,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/10/10/hello/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/10/hello/" itemprop="commentsCount"></span>
+                <a href="/2017/03/08/Untitled/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/08/Untitled/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -284,7 +303,31 @@
       
 
       
-        <p>Hello world!</p>
+        <p>[TOC] </p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这个东西是nju计算机系统基础，也就是计算机组成原理课的PA，内容主要是要实现一个类似qemu简化版的nemu。要做的内容见其<a href="https://www.gitbook.com/book/nju-ics/ics2016-programming-assignment/details" target="_blank" rel="external">文档</a>，主要要做的东西在这个图下面。</p>
+<p><img src="https://raw.githubusercontent.com/Matttteo/images/master/pa.png" alt="PA"></p>
+<p>内核部分暂时不用自己写，主要是虚拟出来一个cpu，自己去完成指令的译码执行等。虚拟的魔术主要发生在：</p>
+<ol>
+<li>模拟了寄存器，并且按照汇编级的代码去运行程序。也就是寄存器搬来搬去，cpu去完成逻辑运算，但是其实逻辑运算还有寄存器的赋值运算等还是要用c语言实现。</li>
+<li>虚拟了内存出来，其实内存就是一个大的数组而已。</li>
+<li>以后想到了再说。</li>
+</ol>
+<p>这个实验比较好玩的地方在于，比写内核还要更底层一点，因为写内核你不用去关心指令是怎么执行的，你只要按照cpu的指令集用去实现一些库函数，然后实现内存管理、内存堆栈的管理，线程管理等。同时你还要关心MMU，cache，内存管理（这点和编写内核类似了），还有一些外部设备。实现了这个，你可以让一个内核跑在这个上面（其实一些内核的课就是在qemu上跑，这个就是去实现一个qemu），所以还是挺有意思的。</p>
+<h2 id="一，安装环境"><a href="#一，安装环境" class="headerlink" title="一，安装环境"></a>一，安装环境</h2><p>文档里使用Docker作为虚拟机，这比用vmware要轻量级许多。有关docker，可以看作是一个操作系统层次的虚拟化技术。传统虚拟机技术是虚拟出一套硬件，在上面运行整个操作系统，在这个系统上运行进程。而Docker内的应用程序进程直接运行在Host的内核。有关Docker的介绍，见[1]，[2]。</p>
+<p><img src="https://raw.githubusercontent.com/Matttteo/images/master/docker1.png" alt="virtual machine"></p>
+<p><img src="https://raw.githubusercontent.com/Matttteo/images/master/docker2.png" alt="docker"><br>安装过程大致为：</p>
+<ol>
+<li>在系统上<a href="https://docs.docker.com/engine/installation/" target="_blank" rel="external">安装</a>Docker</li>
+<li>编写Dockerfile</li>
+<li>build 系统镜像</li>
+<li>create 一个container（container名字，docker镜像，将ssh端口和寄主的20022端口绑定</li>
+<li>docker start ics-vm / docker stop ics-vm</li>
+<li>使用ssh连接</li>
+</ol>
+<p>遇到的坑：<br>主要是build的时候，在docker里apt-get 需要先update一下，最好改一下源。另外如果update失败先单独update 一次，否则重复执行docker只会用cached的数据，结果安装其他软件还是找不到。当然我最后解决的方法不是改源，我设置了代理。。</p>
+<p>因为我是在我的ubuntu上写的，所以其实没有用docker，并且我用sublime不用vim，所以安装到这里就结束了</p>
+<h2 id="二、参考"><a href="#二、参考" class="headerlink" title="二、参考"></a>二、参考</h2><p>[1]. <a href="https://www.gitbook.com/book/yeasy/docker_practice" target="_blank" rel="external">Docker — 从入门到实践</a></p>
+<p>[2]. <a href="https://www.docker.com/" target="_blank" rel="external">Docker 官方文档</a></p>
 
       
     </div>
@@ -310,13 +353,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/03/01/求和最大的子矩阵/" rel="next" title="求和最大的子矩阵">
+                <i class="fa fa-chevron-left"></i> 求和最大的子矩阵
+              </a>
+            
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/10/10/Brand-new-day/" rel="prev" title="Brand new day">
-                Brand new day <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -342,8 +385,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/10/10/hello/"
-           data-title="hello" data-url="http://yoursite.com/2016/10/10/hello/">
+      <div class="ds-thread" data-thread-key="2017/03/08/Untitled/"
+           data-title="PA0" data-url="http://yoursite.com/2017/03/08/Untitled/">
       </div>
     
   </div>
@@ -434,7 +477,7 @@
               
             
             
-              <p class="post-toc-empty">This post does not have a Table of Contents</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一，安装环境"><span class="nav-number">2.</span> <span class="nav-text">一，安装环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、参考"><span class="nav-number">3.</span> <span class="nav-text">二、参考</span></a></li></ol></div>
             
           </div>
         </section>

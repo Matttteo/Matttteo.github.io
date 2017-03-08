@@ -236,6 +236,131 @@
             
               
                 
+                <a class="post-title-link" href="/2017/03/08/Untitled/" itemprop="url">
+                  PA0
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2017-03-08T21:14:54+08:00" content="2017-03-08">
+              2017-03-08
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/03/08/Untitled/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/08/Untitled/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>[TOC] </p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这个东西是nju计算机系统基础，也就是计算机组成原理课的PA，内容主要是要实现一个类似qemu简化版的nemu。要做的内容见其<a href="https://www.gitbook.com/book/nju-ics/ics2016-programming-assignment/details" target="_blank" rel="external">文档</a>，主要要做的东西在这个图下面。</p>
+<p><img src="https://raw.githubusercontent.com/Matttteo/images/master/pa.png" alt="PA"></p>
+<p>内核部分暂时不用自己写，主要是虚拟出来一个cpu，自己去完成指令的译码执行等。虚拟的魔术主要发生在：</p>
+<ol>
+<li>模拟了寄存器，并且按照汇编级的代码去运行程序。也就是寄存器搬来搬去，cpu去完成逻辑运算，但是其实逻辑运算还有寄存器的赋值运算等还是要用c语言实现。</li>
+<li>虚拟了内存出来，其实内存就是一个大的数组而已。</li>
+<li>以后想到了再说。</li>
+</ol>
+<p>这个实验比较好玩的地方在于，比写内核还要更底层一点，因为写内核你不用去关心指令是怎么执行的，你只要按照cpu的指令集用去实现一些库函数，然后实现内存管理、内存堆栈的管理，线程管理等。同时你还要关心MMU，cache，内存管理（这点和编写内核类似了），还有一些外部设备。实现了这个，你可以让一个内核跑在这个上面（其实一些内核的课就是在qemu上跑，这个就是去实现一个qemu），所以还是挺有意思的。</p>
+<h2 id="一，安装环境"><a href="#一，安装环境" class="headerlink" title="一，安装环境"></a>一，安装环境</h2><p>文档里使用Docker作为虚拟机，这比用vmware要轻量级许多。有关docker，可以看作是一个操作系统层次的虚拟化技术。传统虚拟机技术是虚拟出一套硬件，在上面运行整个操作系统，在这个系统上运行进程。而Docker内的应用程序进程直接运行在Host的内核。有关Docker的介绍，见[1]，[2]。</p>
+<p><img src="https://raw.githubusercontent.com/Matttteo/images/master/docker1.png" alt="virtual machine"></p>
+<p><img src="https://raw.githubusercontent.com/Matttteo/images/master/docker2.png" alt="docker"><br>安装过程大致为：</p>
+<ol>
+<li>在系统上<a href="https://docs.docker.com/engine/installation/" target="_blank" rel="external">安装</a>Docker</li>
+<li>编写Dockerfile</li>
+<li>build 系统镜像</li>
+<li>create 一个container（container名字，docker镜像，将ssh端口和寄主的20022端口绑定</li>
+<li>docker start ics-vm / docker stop ics-vm</li>
+<li>使用ssh连接</li>
+</ol>
+<p>遇到的坑：<br>主要是build的时候，在docker里apt-get 需要先update一下，最好改一下源。另外如果update失败先单独update 一次，否则重复执行docker只会用cached的数据，结果安装其他软件还是找不到。当然我最后解决的方法不是改源，我设置了代理。。</p>
+<p>因为我是在我的ubuntu上写的，所以其实没有用docker，并且我用sublime不用vim，所以安装到这里就结束了</p>
+<h2 id="二、参考"><a href="#二、参考" class="headerlink" title="二、参考"></a>二、参考</h2><p>[1]. <a href="https://www.gitbook.com/book/yeasy/docker_practice" target="_blank" rel="external">Docker — 从入门到实践</a></p>
+<p>[2]. <a href="https://www.docker.com/" target="_blank" rel="external">Docker 官方文档</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/03/01/求和最大的子矩阵/" itemprop="url">
                   求和最大的子矩阵
                 </a>
@@ -291,11 +416,11 @@
 <p>首先考虑矩阵为一维的情况，我们的矩阵现在是一个数组$A = { a_1 , a_2, … ,a_n }$，现在要输出的是最大的子数组$a_i ~ a_j$。我们设置一个滑动窗口，窗口的左端x和右端y初始都设为下标为零处，我们再使用一个值res标记目前出现的，和最大的窗口值。然后我们从零开始迭代滑动窗口的右侧下标y。</p>
 <ol>
 <li>当$a_x + .. + a_y = sum&gt; 0$ ，取$res = max(res, sum)$，$y = y + 1$;</li>
-<li>当$a_x + .. + a_y = sum &lt;= 0$, $x = x + 1; y = y + 1$</li>
+<li>当$a_x + .. + a_y = sum &lt;= 0$, $x = y + 1; y = y + 1$</li>
 <li>当 y &gt; n时，结束循环，最大值为res。<br>在上面这个过程中，可以很方便的将窗口左右端也保存，这样就可以找到最大子数组的具体位置了。这个算法的时间复杂度为$O(n)$。</li>
 </ol>
-<p>将一维情况推到二维矩阵$A = {a_11, a_12, …, a_1m, …., a_n1, a_n2, … , a_nm}$，如果使用暴力法，显然算法复杂度高达$O(n^4)$。<br>我们考虑利用一维的结果，首先我们计算一下所有的$r_i ~ r_j$（$1 &lt;= i, j &lt;= n$ )行的矩阵和，其结果为一个数列$B_ij = {b_1, b_2, …,b_m}$, 其中$b_k = a_ik + a_{(i+1)k} + … +a_jk$。获得$B<em>ij$后，我们在上面执行一维的算法，找出最大的子数列$B\</em>{ij} [x ~y]$及其值$res<em>{ij}$这时候我们就找到了以$i, j$为行边界条件下元素和最大的一个子矩阵，与其值$res\</em>{ij}$，我们只需要遍历所有$i, j$的组合，就可以找到全局和最大的子矩阵与其值$res$了。<br>在计算$B_ij$的时候，我们不必每次都求一次和，我们可以利用先计算累加和，利用累加和结果加快运算，具体见代码。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"><span class="keyword">struct</span> Res &#123;</div><div class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</div><div class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; idxs = &#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>&#125;;</div><div class="line">&#125;;</div><div class="line"><span class="function">Res <span class="title">MaxSumSubMatrix</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt;&amp; matrix)</span> </span>&#123;</div><div class="line">    Res r;</div><div class="line">    <span class="keyword">int</span> n_rows = matrix.size();</div><div class="line">    <span class="keyword">if</span> (n_rows == <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">return</span> r;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">int</span> n_cols = matrix[<span class="number">0</span>].size();</div><div class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; sum(n_rows + <span class="number">1</span>, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(n_cols, <span class="number">0</span>));</div><div class="line">    sum[<span class="number">0</span>] = <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(n_cols, <span class="number">0</span>);</div><div class="line">    sum[<span class="number">1</span>] = matrix[<span class="number">0</span>];</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= n_rows; ++i) &#123;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n_cols; ++j) &#123;</div><div class="line">            sum[i][j] = sum[i - <span class="number">1</span>][j] + matrix[i - <span class="number">1</span>][j];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n_rows; ++i) &#123;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &lt; n_rows; ++j) &#123;</div><div class="line">            <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; cur_row(n_cols);</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; n_cols; ++k) &#123;</div><div class="line">                cur_row[k] = sum[j + <span class="number">1</span>][k] - sum[i][k];</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">int</span> right = <span class="number">0</span>;</div><div class="line">            <span class="keyword">int</span> left = <span class="number">0</span>;</div><div class="line">            <span class="keyword">int</span> cur_sum = <span class="number">0</span>;</div><div class="line">            <span class="keyword">while</span> (right &lt; n_cols) &#123;</div><div class="line">                cur_sum += cur_row[right];</div><div class="line">                <span class="keyword">if</span> (cur_sum &gt; <span class="number">0</span>) &#123;</div><div class="line">                    <span class="keyword">if</span> (r.sum &lt; cur_sum) &#123;</div><div class="line">                        r.idxs = &#123; i, j, left, right &#125;;</div><div class="line">                    &#125;</div><div class="line">                    r.sum = max(r.sum, cur_sum);</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">else</span> &#123;</div><div class="line">                    left = right + <span class="number">1</span>;</div><div class="line">                    cur_sum = <span class="number">0</span>;</div><div class="line">                &#125;</div><div class="line">                right++;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> r;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>将一维情况推到二维矩阵$A = {a_{11}, a_12, …, a_1m, …., a_n1, a_n2, … , a_nm}$，如果使用暴力法，显然算法复杂度高达$O(n^4)$。<br>我们考虑利用一维的结果，首先我们计算一下所有的$r_i ~ r_j$（$1 &lt;= i, j &lt;= n$ )行的矩阵和，其结果为一个数列$B_ij = {b_1, b_2, …,b_m}$, 其中$b_k = a_ik + a_{(i+1)k} + … +a_jk$。获得$B<em>ij$后，我们在上面执行一维的算法，找出最大的子数列$B\</em>{ij}[x ~y]$及其值$res<em>{ij}$这时候我们就找到了以$i j$为行边界条件下元素和最大的一个子矩阵，与其值$res\</em>{ij}$，我们只需要遍历所有$i j$的组合，就可以找到全局和最大的子矩阵与其值$res$了。<br>在计算$B_ij$的时候，我们利用之前的计算结果即可。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"><span class="keyword">struct</span> Res &#123;</div><div class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</div><div class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; idxs = &#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>&#125;;</div><div class="line">&#125;;</div><div class="line"><span class="function">Res <span class="title">MaxSumSubMatrix</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt;&amp; matrix)</span> </span>&#123;</div><div class="line">    Res r;</div><div class="line">    <span class="keyword">int</span> n_rows = matrix.size();</div><div class="line">    <span class="keyword">if</span> (n_rows == <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">return</span> r;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">int</span> n_cols = matrix[<span class="number">0</span>].size();</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n_rows; ++i) &#123;</div><div class="line">    	<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; sum(n_cols, <span class="number">0</span>);</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &lt; n_rows; ++j) &#123;</div><div class="line">        	<span class="keyword">for</span>(<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; n_cols; ++k) &#123;</div><div class="line">            	sum[k] += matrix[j][k];</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">int</span> right = <span class="number">0</span>;</div><div class="line">            <span class="keyword">int</span> left = <span class="number">0</span>;</div><div class="line">            <span class="keyword">int</span> cur_sum = <span class="number">0</span>;</div><div class="line">            <span class="keyword">while</span> (right &lt; n_cols) &#123;</div><div class="line">                cur_sum += sum[right];</div><div class="line">                <span class="keyword">if</span> (cur_sum &gt; <span class="number">0</span>) &#123;</div><div class="line">                    <span class="keyword">if</span> (r.sum &lt; cur_sum) &#123;</div><div class="line">                        r.idxs = &#123; i, j, left, right &#125;;</div><div class="line">                    &#125;</div><div class="line">                    r.sum = max(r.sum, cur_sum);</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">else</span> &#123;</div><div class="line">                    left = right + <span class="number">1</span>;</div><div class="line">                    cur_sum = <span class="number">0</span>;</div><div class="line">                &#125;</div><div class="line">                right++;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> r;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
           
         
       
@@ -1261,109 +1386,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/11/遐想/" itemprop="url">
-                  遐想
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-10-11T23:28:06+08:00" content="2016-10-11">
-              2016-10-11
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/10/11/遐想/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/11/遐想/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>晚上路过新开的山东水饺店，没忍住点了份带回寝室吃。最近一些新的饭店开了，东西都还算好吃，老板刚开始干干劲也很十足的样子。我站在那里想，当初他们怎么想来这里开这个餐馆的啊。</p>
-<p>”你看看我做的水饺好吃不，能吸引顾客吗？好吃的话我们去上海开个店吧，正好我认识有同乡开过，可以问问他。开店需要点人手，亲戚老乡家的孩子现在也没什么正经工作就叫他们吧，跟着我他们家长也会放心吧。之前积蓄这下要拿出来大部分可能还要借钱，和老婆商量商量，大概她会同意吧。上海那里人多消费能力高，干的好了比待在老家挣的肯定多，反正过年还是会回家的，干得好了比现在窝在家里也有面子些。干的不好了大不了回去再慢慢积累吧，反正再苦再累也比什么也不干强，孩子马上也长大了，为了他们也要好好拼一把。“</p>
-<p>想着想着我的那份就做好了，然后我回去就把它吃了。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1409,7 +1431,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-count">14</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
