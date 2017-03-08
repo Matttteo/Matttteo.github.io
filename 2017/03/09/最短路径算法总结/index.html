@@ -1,0 +1,678 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="[TOC]
+一、最短路径问题的定义对于一个图，任意取两个点做起点和终点，可以规划出n条起点到终点的路线，不兜圈子不重复经过某一点的路线叫做一个路径（path），如果图中的边有权重，那么这些路径也就有了长度。
+最短路径是从起点到终点长度最短的路径，当图没有负边的时候，这个问题是一个NP 完全的问题，最长路径问题类似，当没有正边是NP完全问题。
+最短路径有一个很好的性质：
+
+每一条最短路径，都是由其他">
+<meta property="og:type" content="article">
+<meta property="og:title" content="最短路径算法总结">
+<meta property="og:url" content="http://yoursite.com/2017/03/09/最短路径算法总结/index.html">
+<meta property="og:site_name" content="Yunhan">
+<meta property="og:description" content="[TOC]
+一、最短路径问题的定义对于一个图，任意取两个点做起点和终点，可以规划出n条起点到终点的路线，不兜圈子不重复经过某一点的路线叫做一个路径（path），如果图中的边有权重，那么这些路径也就有了长度。
+最短路径是从起点到终点长度最短的路径，当图没有负边的时候，这个问题是一个NP 完全的问题，最长路径问题类似，当没有正边是NP完全问题。
+最短路径有一个很好的性质：
+
+每一条最短路径，都是由其他">
+<meta property="og:image" content="https://raw.githubusercontent.com/Matttteo/images/master/path.png">
+<meta property="og:updated_time" content="2017-03-08T16:03:09.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="最短路径算法总结">
+<meta name="twitter:description" content="[TOC]
+一、最短路径问题的定义对于一个图，任意取两个点做起点和终点，可以规划出n条起点到终点的路线，不兜圈子不重复经过某一点的路线叫做一个路径（path），如果图中的边有权重，那么这些路径也就有了长度。
+最短路径是从起点到终点长度最短的路径，当图没有负边的时候，这个问题是一个NP 完全的问题，最长路径问题类似，当没有正边是NP完全问题。
+最短路径有一个很好的性质：
+
+每一条最短路径，都是由其他">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/Matttteo/images/master/path.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'yubai',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/03/09/最短路径算法总结/"/>
+
+
+  <title> 最短路径算法总结 | Yunhan </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Yunhan</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                最短路径算法总结
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2017-03-09T00:03:05+08:00" content="2017-03-09">
+              2017-03-09
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/03/09/最短路径算法总结/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/09/最短路径算法总结/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>[TOC]</p>
+<h2 id="一、最短路径问题的定义"><a href="#一、最短路径问题的定义" class="headerlink" title="一、最短路径问题的定义"></a>一、最短路径问题的定义</h2><p>对于一个图，任意取两个点做起点和终点，可以规划出n条起点到终点的路线，不兜圈子不重复经过某一点的路线叫做一个路径（path），如果图中的边有权重，那么这些路径也就有了长度。</p>
+<p>最短路径是从起点到终点长度最短的路径，当图没有负边的时候，这个问题是一个NP 完全的问题，最长路径问题类似，当没有正边是NP完全问题。</p>
+<p>最短路径有一个很好的性质：</p>
+<blockquote>
+<p>每一条最短路径，都是由其他最短路径延伸得到，也就是说对一个最短路径进行首尾切割得到的中间一段仍然是最短路径。</p>
+</blockquote>
+<p>从一个起点出发，到图中所有点的最短路径构成一个最短路径树（可能不止一个）。</p>
+<p>一个起点和终点间所有最短路径组成一个最短路径图，只有一个，他是一个有向無環圖（Directed Acyclic Graph, DAG）。</p>
+<p>最短路径算法中一个经常用到的概念是松弛（relaxation），如下图所示[1]。</p>
+<p><img src="https://raw.githubusercontent.com/Matttteo/images/master/path.png" alt="relaxa"></p>
+<p>最短路径问题可以分为三类：</p>
+<ol>
+<li><p>Point to Point shorest path</p>
+</li>
+<li><p>Single source shorest path</p>
+</li>
+<li><p>All pairs shorest path</p>
+</li>
+</ol>
+<h2 id="二、单源最短路径问题"><a href="#二、单源最短路径问题" class="headerlink" title="二、单源最短路径问题"></a>二、单源最短路径问题</h2><h3 id="1-Label-Setting-算法"><a href="#1-Label-Setting-算法" class="headerlink" title="1. Label Setting 算法"></a>1. Label Setting 算法</h3><p>所谓label就是从起点到所有终点的距离值，label setting就是算法每次外循环set一个终点的值作为最后的结果。要怎么做呢？</p>
+<p>定义w[a][b]为a顶点到b顶点的距离，也就是边的权重，定义d[a]为起点到a的距离，除了起点本身，其他都设为0。</p>
+<ol>
+<li><p>将起点加到最短路径树上</p>
+</li>
+<li><p>重复V-1次，直到所有顶点加到最短路径树上</p>
+<p>a. 找一个不在最短路径树并且离起点最近的点，方法是找一个已经在最短路径上的点a以及一个不在最短路径点上的b，使得w[a][b] + d[a]最小。</p>
+<p>b. 将b的最短路径加到d[b]上</p>
+<p>c. 将b点连同ab边加到最短路径树上。</p>
+</li>
+</ol>
+<p>这里需要证明的一点是，所有与目前最短路径树连接的，与起点最近的一个顶点可以被加入到最短路径树上。</p>
+<p>简单说一下我的理解：在每次循环开始时，我们已经有一个最短路径树T。按照上面算法第2步找到的顶点p一定是所有与这个树连接的顶点集合P中距离起点s最短的点，那么所有P中其他点到起点的距离都会长于p，因为没有负边，那么所有不在S和T中顶点到起点的距离更不可能比p到起点的距离短，所以这一步不会改变T是一个最短路径树的事实。</p>
+<p>我们直接实现Label Setting算法，假如顶点数量是n，时间复杂度为O(n^3)。之后的Dijkstra算法对这个问题有改进。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; w(<span class="number">10</span>, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; (<span class="number">10</span>));</div><div class="line"></div><div class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; d(<span class="number">10</span>);</div><div class="line"></div><div class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; pre(<span class="number">10</span>);</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">LabelSetting</span><span class="params">(<span class="keyword">int</span> src, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; d, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; w, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; pre)</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt; visited(<span class="number">10</span>, <span class="literal">false</span>);</div><div class="line"></div><div class="line">	visited[src] = <span class="literal">true</span>;</div><div class="line"></div><div class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; ++i) &#123;</div><div class="line"></div><div class="line">		d[i] = w[src][i];</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">int</span> V = <span class="number">9</span>;</div><div class="line"></div><div class="line">	<span class="keyword">while</span>(V) &#123;</div><div class="line"></div><div class="line">		<span class="keyword">int</span> min = <span class="number">1e9</span>;</div><div class="line"></div><div class="line">		<span class="keyword">int</span> minIdx = <span class="number">-1</span>;</div><div class="line"></div><div class="line">		<span class="keyword">int</span> preIdx = <span class="number">-1</span>;</div><div class="line"></div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; ++i) &#123;</div><div class="line"></div><div class="line">			<span class="keyword">if</span>(visited[i] == <span class="literal">true</span>) &#123;</div><div class="line"></div><div class="line">				<span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">10</span>; ++j) &#123;</div><div class="line"></div><div class="line">					<span class="keyword">if</span>(visited[j] == <span class="literal">false</span>) &#123;</div><div class="line"></div><div class="line">						<span class="keyword">if</span>(d[i] + w[i][j] &lt; min) &#123;</div><div class="line"></div><div class="line">							min = d[i] + w[i][j];</div><div class="line"></div><div class="line">							minIdx = j;</div><div class="line"></div><div class="line">							preIdx = i;</div><div class="line"></div><div class="line">						&#125;</div><div class="line"></div><div class="line">					&#125;</div><div class="line"></div><div class="line">				&#125;</div><div class="line"></div><div class="line">			&#125;</div><div class="line"></div><div class="line">		&#125;</div><div class="line"></div><div class="line">		d[minIdx] = min;</div><div class="line"></div><div class="line">		pre[minIdx] = preIdx;</div><div class="line"></div><div class="line">		visited[minIdx] = <span class="literal">true</span>;</div><div class="line"></div><div class="line">		V--;</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>###2.  Dijkstra算法</p>
+<p>在Label Setting算法中，我们要用穷举的方式找到一个最近的点。实际上我们做了很多重复的计算，我们可能对某些顶点到起点的距离计算了很多遍。自然的，我们考虑用一个表来保存一些目前已经知道的“最短”距离，这个距离只是当前最短的，当对最短路径树加入新的顶点后，我们需要对这个表进行更新，也就是做一些“松弛”。</p>
+<p>按照这个思想我们进行实现:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"../graph.h"</span></span></div><div class="line"></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">Dijkstra</span><span class="params">(Graph&amp; graph, <span class="keyword">int</span> src, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; dists, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; parents)</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="keyword">if</span>(!graph.IsInGraph(src)) &#123;</div><div class="line"></div><div class="line">		<span class="keyword">return</span>;</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; graph.size(); ++i) &#123;</div><div class="line"></div><div class="line">		dists[i] = graph.WeightAt(src, i);</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt; visited(graph.size(), <span class="literal">false</span>);</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">	<span class="keyword">int</span> n = <span class="number">1</span>;</div><div class="line"></div><div class="line">	<span class="keyword">while</span>(n &lt; graph.size()) &#123;</div><div class="line"></div><div class="line">		<span class="keyword">int</span> min = INT_MAX;</div><div class="line"></div><div class="line">		<span class="keyword">int</span> min_idx = <span class="number">-1</span>;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; graph.size(); ++i) &#123;</div><div class="line"></div><div class="line">			<span class="keyword">if</span>(visited[i] == <span class="literal">false</span>) &#123;</div><div class="line"></div><div class="line">				<span class="keyword">if</span>(dists[i] &lt; min) &#123;</div><div class="line"></div><div class="line">					min = dists[i];</div><div class="line"></div><div class="line">					min_idx = i;</div><div class="line"></div><div class="line">				&#125;</div><div class="line"></div><div class="line">			&#125;</div><div class="line"></div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="keyword">if</span>(min_idx = <span class="number">-1</span>) <span class="keyword">break</span>;</div><div class="line"></div><div class="line">		visited[min_idx] = <span class="literal">true</span>;</div><div class="line"></div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; graph.size(); ++i) &#123;</div><div class="line"></div><div class="line">			<span class="keyword">if</span>(visited[i] == <span class="literal">false</span>) &#123;</div><div class="line"></div><div class="line">				<span class="keyword">if</span>(dists[i] &lt; dists[min_idx] + graph.WeightAt(min_idx, i)) &#123;</div><div class="line"></div><div class="line">					dists[i] = dists[min_idx] + graph.WeightAt(min_idx, i);</div><div class="line"></div><div class="line">					parents[i] = min_idx;</div><div class="line"></div><div class="line">				&#125;</div><div class="line"></div><div class="line">			&#125;</div><div class="line"></div><div class="line">		&#125;</div><div class="line"></div><div class="line">		n++;</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span> </span>&#123;</div><div class="line"></div><div class="line">	Graph graph;</div><div class="line"></div><div class="line">	graph.init();</div><div class="line"></div><div class="line">	<span class="keyword">int</span> src = <span class="number">0</span>;</div><div class="line"></div><div class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; dists(graph.size(), INT_MAX);</div><div class="line"></div><div class="line">	dists[src] = <span class="number">0</span>;</div><div class="line"></div><div class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; parents(graph.size(), <span class="number">-1</span>);</div><div class="line"></div><div class="line">	parents[src] = src;</div><div class="line"></div><div class="line">	Dijkstra(graph, src, dists, parents);</div><div class="line"></div><div class="line">	PrintResult(dists, parents);</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看到，时间复杂度这时已经降低到平方。</p>
+<p>进一步，如何找到目前距离向量中最短的那一个我们可以用一个优先队列来处理，具体说来就是我们把上面程序里的dists数组放到一个优先队列中，这样就可以在logn时间内取最小值了。在具体实现中，为了避免对队列里的元素进行修改，可以跳过修改直接把新的元素放到队列里，并且在取最小值时把那些已经访问过的元素跳过，这样虽然增加了点时间，但是减少了很多繁琐的对队列元素的修改删除操作。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">Dijkstra</span><span class="params">(Graph&amp; graph, <span class="keyword">int</span> src, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; dists, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; parents)</span> </span>&#123;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">	<span class="keyword">if</span>(!graph.IsInGraph(src)) &#123;</div><div class="line"></div><div class="line">		<span class="keyword">return</span>;</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; graph.size(); ++i) &#123;</div><div class="line"></div><div class="line">		dists[i] = graph.WeightAt(src, i);</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt; visited(graph.size(), <span class="literal">false</span>);</div><div class="line"></div><div class="line">	<span class="keyword">auto</span> comp = [](Node&amp; a, Node&amp; b) &#123;<span class="keyword">return</span> a.dists &gt; b.dists;&#125;;</div><div class="line"></div><div class="line">	priority_queue&lt;Node, <span class="built_in">vector</span>&lt;Node&gt;, <span class="keyword">decltype</span>(comp)&gt; PQ(comp);</div><div class="line"></div><div class="line">	PQ.push(Node(src, <span class="number">0</span>));</div><div class="line"></div><div class="line">	visited[src] = <span class="literal">true</span>;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">	<span class="keyword">int</span> n = <span class="number">0</span>;</div><div class="line"></div><div class="line">	<span class="keyword">while</span>(n &lt; graph.size()) &#123;</div><div class="line"></div><div class="line">		<span class="keyword">int</span> min_idx = <span class="number">-1</span>;</div><div class="line"></div><div class="line">		<span class="keyword">while</span>(!PQ.empyt() &amp;&amp; visited[min_idx = PQ.top().id]) &#123;</div><div class="line"></div><div class="line">			PQ.pop();</div><div class="line"></div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="keyword">if</span>(min_idx == <span class="number">-1</span>) <span class="keyword">break</span>;</div><div class="line"></div><div class="line">		visited[min_idx] = <span class="literal">true</span>;</div><div class="line"></div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; graph.size(); ++i) &#123;</div><div class="line"></div><div class="line">			<span class="keyword">if</span>(dists[i] &lt; dists[min_idx] + graph.WeightAt(min_idx, i)) &#123;</div><div class="line"></div><div class="line">				parents[i] = min_idx;</div><div class="line"></div><div class="line">				dists[i] = dists[min_idx] + graph.WeightAt(min_idx, i);</div><div class="line"></div><div class="line">				PQ.push(Node(i, dists[i]));</div><div class="line"></div><div class="line">			&#125;</div><div class="line"></div><div class="line">		&#125;</div><div class="line"></div><div class="line">		n++;</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="三、所有点对所有点最短路径问题"><a href="#三、所有点对所有点最短路径问题" class="headerlink" title="三、所有点对所有点最短路径问题"></a>三、所有点对所有点最短路径问题</h2><p>解决这个问题一个最好的方法是<a href="https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm" target="_blank" rel="external">Floyd-Warshll算法</a>，这个算法的思想是动态规划， 具体见wiki的解释。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">FloydWarshll</span><span class="params">(Graph&amp; graph, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt;&amp; dists, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt;&amp; next)</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; graph.size(); ++i) &#123;</div><div class="line"></div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; graph.size(); ++j) &#123;</div><div class="line"></div><div class="line">			dists[i][j] = graph.WeightAt(i, j);</div><div class="line"></div><div class="line">			next[i][j] = <span class="number">-1</span>;</div><div class="line"></div><div class="line">		&#125;</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; graph.size(); ++k) &#123;</div><div class="line"></div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> bg = <span class="number">0</span>; bg &lt; graph.size(); ++bg) &#123;</div><div class="line"></div><div class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> ed = <span class="number">0</span>; ed &lt; graph.size(); ++ed) &#123;</div><div class="line"></div><div class="line">				<span class="keyword">if</span>(dists[bg][ed] &lt; dists[bg][k] + dists[k][ed]) &#123;</div><div class="line"></div><div class="line">					dists[bg][ed] = dists[bg][k] + dists[k][ed];</div><div class="line"></div><div class="line">					next[bg][ed] = next[bg][k];				&#125;</div><div class="line"></div><div class="line">			&#125;</div><div class="line"></div><div class="line">		&#125;</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span> </span>&#123;</div><div class="line"></div><div class="line">	Graph graph;</div><div class="line"></div><div class="line">	graph.init();</div><div class="line"></div><div class="line">	<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; dists(graph.size(), <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(graph.size()));</div><div class="line"></div><div class="line">	<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; next(graph.size(), <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(graph.size()));</div><div class="line"></div><div class="line">	FloydWarshll(graph, dists, next);</div><div class="line"></div><div class="line">	PrintResult(dists, next);	</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>##四、参考</p>
+<p>[1]. <a href="http://www.csie.ntnu.edu.tw/~u91029/Path.html" target="_blank" rel="external">http://www.csie.ntnu.edu.tw/~u91029/Path.html</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/08/Untitled/" rel="next" title="PA0">
+                <i class="fa fa-chevron-left"></i> PA0
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/03/09/最短路径算法总结/"
+           data-title="最短路径算法总结" data-url="http://yoursite.com/2017/03/09/最短路径算法总结/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Yunhan Bai" />
+          <p class="site-author-name" itemprop="name">Yunhan Bai</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">categories</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、最短路径问题的定义"><span class="nav-number">1.</span> <span class="nav-text">一、最短路径问题的定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、单源最短路径问题"><span class="nav-number">2.</span> <span class="nav-text">二、单源最短路径问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Label-Setting-算法"><span class="nav-number">2.1.</span> <span class="nav-text">1. Label Setting 算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、所有点对所有点最短路径问题"><span class="nav-number">3.</span> <span class="nav-text">三、所有点对所有点最短路径问题</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yunhan Bai</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yubai"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+  
+
+  
+
+</body>
+</html>
