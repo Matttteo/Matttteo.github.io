@@ -51,11 +51,17 @@
   
 
   
+    
+      
+    
+
+    
+  
 
   
     
     
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
   
 
 
@@ -236,6 +242,111 @@
             
               
                 
+                <a class="post-title-link" href="/2017/03/09/深入理解快速排序/" itemprop="url">
+                  深入理解快速排序
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2017-03-09T23:49:36+08:00" content="2017-03-09">
+              2017-03-09
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/03/09/深入理解快速排序/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/09/深入理解快速排序/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>快排的思想是每次找一个元素把数组大致非为大于这个元素和小于这个元素（可以等于）的两个部分，然后在这两个部分递归的进行排序。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">QuickSort(nums, bg, ed):</div><div class="line">    <span class="keyword">if</span> bg &gt;= ed:</div><div class="line">        <span class="keyword">return</span></div><div class="line">    pivot = Partition(nums, bg, ed)</div><div class="line">    QuickSort(nums, bg, pivot - <span class="number">1</span>)</div><div class="line">    QuickSort(nums, pivot + <span class="number">1</span>, ed)</div></pre></td></tr></table></figure></p>
+<p>那么我们怎么找到一个元素在整个数组中的位置呢，最简单的方法，重新开辟一个相同大小的数组，每次把大于元素的数字放到尾巴处，小于的放到头处，这样时间复杂度是n，但是需要n的空间复杂度，考虑如何不使用多余的空间。<br>这种问题我们都可以考虑双工作指针的方法，所谓双工作指针，是说用两个指针把数组分成待处理，已处理两部分，已处理部分又分为两种性质，当然这个性质是很宽泛的，不应该死板的理解。类似的问题如荷兰国旗问题，Two Sum问题等。<br>快排里用left和right两个指针，其中left指向一个小于等于val的元素，并且left左边的位置都小于我们需要比较的元素。right指针右边的元素都大于我们要比较的元素。我们把left设置到数组开头，right设置到数组的尾部，可以满足上述<strong>性质</strong>，当left和right相遇的时候自然就结束了，在工作过程中要保证上述<strong>性质</strong>不变。<br>最终的代码可以写成这样：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Partition(nums, bg, ed):</div><div class="line">    left = bg</div><div class="line">    right = ed</div><div class="line">    val = nums[bg]</div><div class="line">    <span class="keyword">while</span> left &lt; right:</div><div class="line">        <span class="keyword">while</span> left &lt; right <span class="keyword">and</span> nums[right] &gt;= val :</div><div class="line">            right = right - <span class="number">1</span></div><div class="line">        nums[left] = nums[right]</div><div class="line">        <span class="keyword">while</span> left &lt; right <span class="keyword">and</span> nums[left] &lt;= val:</div><div class="line">            left = left - <span class="number">1</span></div><div class="line">         nums[right] = nums[left]</div><div class="line">    nums[left] = val</div><div class="line">    <span class="keyword">return</span> left</div></pre></td></tr></table></figure></p>
+<p>一般书上的快排就给了这个形式，看上去非常简洁，其实这个代码是把很多分支判断删除后的一个压缩状态的版本，我们从精简的版本无法恢复出一个完整版，但是有了完整版本则可以得出精简版。<br>要用双工作指针完成对数组的分块其实insight非常简单，我们把小的移动到左边，大的到右边，那么两个指针在移动的时候遇到一个不符合性质的就把他移动到另外一边就行了。比较复杂的在于什么时候这个过程停止？我们先移动左边的指针还是右边的指针？对于第二个问题先不讨论，第一个问题，什么时候停止？当然是left和right相遇的时候停止了，也就是说无论是在移动left或是right 的时候，你都要判断一下是不是双指针已经相遇了，如果相遇了怎么办，如果没相遇怎么继续。在这个思路下，我们写一个更为“复杂”的代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">Partition(nums, bg, ed):</div><div class="line">    left = bg</div><div class="line">    right = ed</div><div class="line">    val = nums[bg]</div><div class="line">    <span class="keyword">while</span> left &lt; right:</div><div class="line">        <span class="keyword">while</span> left &lt; right <span class="keyword">and</span> nums[right] &gt;= val:</div><div class="line">            right -= <span class="number">1</span></div><div class="line">        <span class="keyword">if</span> left == right:<span class="comment">#相遇了，**性质**没变，直接退出循环了</span></div><div class="line">            <span class="keyword">break</span></div><div class="line">        <span class="keyword">else</span>: <span class="comment">#当left 和 right 没相遇，意味着right指向了一个小于val的元素</span></div><div class="line">            <span class="keyword">while</span> left &lt; right <span class="keyword">and</span> nums[left] &lt;= val:<span class="comment"># 左边指针跳过一些符合条件的元素</span></div><div class="line">                left += <span class="number">1</span></div><div class="line">            <span class="keyword">if</span> left == right: <span class="comment">#相遇了，**性质**没变，直接退出循环了</span></div><div class="line">                <span class="keyword">break</span></div><div class="line">            <span class="keyword">else</span>: <span class="comment">#left 和right没相遇，意味着left 指向了一个大于val的元素</span></div><div class="line">                swap(nums, left, right) <span class="comment"># 我们把left 和 right 交换一下，这时候**性质**还是满足的</span></div><div class="line">    nums[left] = val</div><div class="line">    <span class="keyword">return</span> left</div></pre></td></tr></table></figure>
+<p>上面的代码就有很多逻辑判断，但是相对来说更清晰点，我们如果把这个里面一些“多余”的逻辑判断去掉就得到精简的快排代码了。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/03/09/最短路径算法总结/" itemprop="url">
                   最短路径算法总结
                 </a>
@@ -319,11 +430,10 @@
 </li>
 </ol>
 <p>这里需要证明的一点是，所有与目前最短路径树连接的，与起点最近的一个顶点可以被加入到最短路径树上。</p>
-<p>简单说一下我的理解：在每次循环开始时，我们已经有一个最短路径树T。按照上面算法第2步找到的顶点p一定是所有与这个树连接的顶点集合P中距离起点s最短的点，那么所有P中其他点到起点的距离都会长于p，因为没有负边，那么所有不在S和T中顶点到起点的距离更不可能比p到起点的距离短，所以这一步不会改变T是一个最短路径树的事实。</p>
+<p>简单说一下我的理解：在每次循环开始时，我们已经有一个最短路径树T。按照上面算法第2步找到的顶点p一定是所有与这个树连接的顶点集合P中距离起点s最短的点，那么所有P中其他点到起点的距离都会长于p，因为没有负边，那么所有不在P和T中顶点到起点的距离更不可能比p到起点的距离短，所以这一步不会改变T是一个最短路径树的事实。</p>
 <p>我们直接实现Label Setting算法，假如顶点数量是n，时间复杂度为O(n^3)。之后的Dijkstra算法对这个问题有改进。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; w(<span class="number">10</span>, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; (<span class="number">10</span>));</div><div class="line"></div><div class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; d(<span class="number">10</span>);</div><div class="line"></div><div class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; pre(<span class="number">10</span>);</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">LabelSetting</span><span class="params">(<span class="keyword">int</span> src, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; d, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; w, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; pre)</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt; visited(<span class="number">10</span>, <span class="literal">false</span>);</div><div class="line"></div><div class="line">	visited[src] = <span class="literal">true</span>;</div><div class="line"></div><div class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; ++i) &#123;</div><div class="line"></div><div class="line">		d[i] = w[src][i];</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">int</span> V = <span class="number">9</span>;</div><div class="line"></div><div class="line">	<span class="keyword">while</span>(V) &#123;</div><div class="line"></div><div class="line">		<span class="keyword">int</span> min = <span class="number">1e9</span>;</div><div class="line"></div><div class="line">		<span class="keyword">int</span> minIdx = <span class="number">-1</span>;</div><div class="line"></div><div class="line">		<span class="keyword">int</span> preIdx = <span class="number">-1</span>;</div><div class="line"></div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; ++i) &#123;</div><div class="line"></div><div class="line">			<span class="keyword">if</span>(visited[i] == <span class="literal">true</span>) &#123;</div><div class="line"></div><div class="line">				<span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">10</span>; ++j) &#123;</div><div class="line"></div><div class="line">					<span class="keyword">if</span>(visited[j] == <span class="literal">false</span>) &#123;</div><div class="line"></div><div class="line">						<span class="keyword">if</span>(d[i] + w[i][j] &lt; min) &#123;</div><div class="line"></div><div class="line">							min = d[i] + w[i][j];</div><div class="line"></div><div class="line">							minIdx = j;</div><div class="line"></div><div class="line">							preIdx = i;</div><div class="line"></div><div class="line">						&#125;</div><div class="line"></div><div class="line">					&#125;</div><div class="line"></div><div class="line">				&#125;</div><div class="line"></div><div class="line">			&#125;</div><div class="line"></div><div class="line">		&#125;</div><div class="line"></div><div class="line">		d[minIdx] = min;</div><div class="line"></div><div class="line">		pre[minIdx] = preIdx;</div><div class="line"></div><div class="line">		visited[minIdx] = <span class="literal">true</span>;</div><div class="line"></div><div class="line">		V--;</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>###2.  Dijkstra算法</p>
-<p>在Label Setting算法中，我们要用穷举的方式找到一个最近的点。实际上我们做了很多重复的计算，我们可能对某些顶点到起点的距离计算了很多遍。自然的，我们考虑用一个表来保存一些目前已经知道的“最短”距离，这个距离只是当前最短的，当对最短路径树加入新的顶点后，我们需要对这个表进行更新，也就是做一些“松弛”。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; w(<span class="number">10</span>, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; (<span class="number">10</span>));</div><div class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; d(<span class="number">10</span>);</div><div class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; pre(<span class="number">10</span>);</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">LabelSetting</span><span class="params">(<span class="keyword">int</span> src, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; d, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; w, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; pre)</span> </span>&#123;</div><div class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt; visited(<span class="number">10</span>, <span class="literal">false</span>);</div><div class="line">	visited[src] = <span class="literal">true</span>;</div><div class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; ++i) &#123;</div><div class="line">		d[i] = w[src][i];</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">int</span> V = <span class="number">9</span>;</div><div class="line">	<span class="keyword">while</span>(V) &#123;</div><div class="line">		<span class="keyword">int</span> min = <span class="number">1e9</span>;</div><div class="line">		<span class="keyword">int</span> minIdx = <span class="number">-1</span>;</div><div class="line">		<span class="keyword">int</span> preIdx = <span class="number">-1</span>;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; ++i) &#123;</div><div class="line">			<span class="keyword">if</span>(visited[i] == <span class="literal">true</span>) &#123;</div><div class="line">				<span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">10</span>; ++j) &#123;</div><div class="line">					<span class="keyword">if</span>(visited[j] == <span class="literal">false</span>) &#123;</div><div class="line">						<span class="keyword">if</span>(d[i] + w[i][j] &lt; min) &#123;</div><div class="line">							min = d[i] + w[i][j];</div><div class="line">							minIdx = j;</div><div class="line">							preIdx = i;</div><div class="line">						&#125;</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		d[minIdx] = min;</div><div class="line">		pre[minIdx] = preIdx;</div><div class="line">		visited[minIdx] = <span class="literal">true</span>;</div><div class="line">		V--;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="2-Dijkstra算法"><a href="#2-Dijkstra算法" class="headerlink" title="2. Dijkstra算法"></a>2. Dijkstra算法</h3><p>在Label Setting算法中，我们要用穷举的方式找到一个最近的点。实际上我们做了很多重复的计算，我们可能对某些顶点到起点的距离计算了很多遍。自然的，我们考虑用一个表来保存一些目前已经知道的“最短”距离，这个距离只是当前最短的，当对最短路径树加入新的顶点后，我们需要对这个表进行更新，也就是做一些“松弛”。</p>
 <p>按照这个思想我们进行实现:</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"../graph.h"</span></span></div><div class="line"></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">Dijkstra</span><span class="params">(Graph&amp; graph, <span class="keyword">int</span> src, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; dists, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; parents)</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="keyword">if</span>(!graph.IsInGraph(src)) &#123;</div><div class="line"></div><div class="line">		<span class="keyword">return</span>;</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; graph.size(); ++i) &#123;</div><div class="line"></div><div class="line">		dists[i] = graph.WeightAt(src, i);</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt; visited(graph.size(), <span class="literal">false</span>);</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">	<span class="keyword">int</span> n = <span class="number">1</span>;</div><div class="line"></div><div class="line">	<span class="keyword">while</span>(n &lt; graph.size()) &#123;</div><div class="line"></div><div class="line">		<span class="keyword">int</span> min = INT_MAX;</div><div class="line"></div><div class="line">		<span class="keyword">int</span> min_idx = <span class="number">-1</span>;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; graph.size(); ++i) &#123;</div><div class="line"></div><div class="line">			<span class="keyword">if</span>(visited[i] == <span class="literal">false</span>) &#123;</div><div class="line"></div><div class="line">				<span class="keyword">if</span>(dists[i] &lt; min) &#123;</div><div class="line"></div><div class="line">					min = dists[i];</div><div class="line"></div><div class="line">					min_idx = i;</div><div class="line"></div><div class="line">				&#125;</div><div class="line"></div><div class="line">			&#125;</div><div class="line"></div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="keyword">if</span>(min_idx = <span class="number">-1</span>) <span class="keyword">break</span>;</div><div class="line"></div><div class="line">		visited[min_idx] = <span class="literal">true</span>;</div><div class="line"></div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; graph.size(); ++i) &#123;</div><div class="line"></div><div class="line">			<span class="keyword">if</span>(visited[i] == <span class="literal">false</span>) &#123;</div><div class="line"></div><div class="line">				<span class="keyword">if</span>(dists[i] &lt; dists[min_idx] + graph.WeightAt(min_idx, i)) &#123;</div><div class="line"></div><div class="line">					dists[i] = dists[min_idx] + graph.WeightAt(min_idx, i);</div><div class="line"></div><div class="line">					parents[i] = min_idx;</div><div class="line"></div><div class="line">				&#125;</div><div class="line"></div><div class="line">			&#125;</div><div class="line"></div><div class="line">		&#125;</div><div class="line"></div><div class="line">		n++;</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span> </span>&#123;</div><div class="line"></div><div class="line">	Graph graph;</div><div class="line"></div><div class="line">	graph.init();</div><div class="line"></div><div class="line">	<span class="keyword">int</span> src = <span class="number">0</span>;</div><div class="line"></div><div class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; dists(graph.size(), INT_MAX);</div><div class="line"></div><div class="line">	dists[src] = <span class="number">0</span>;</div><div class="line"></div><div class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; parents(graph.size(), <span class="number">-1</span>);</div><div class="line"></div><div class="line">	parents[src] = src;</div><div class="line"></div><div class="line">	Dijkstra(graph, src, dists, parents);</div><div class="line"></div><div class="line">	PrintResult(dists, parents);</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>可以看到，时间复杂度这时已经降低到平方。</p>
@@ -332,131 +442,6 @@
 <h2 id="三、所有点对所有点最短路径问题"><a href="#三、所有点对所有点最短路径问题" class="headerlink" title="三、所有点对所有点最短路径问题"></a>三、所有点对所有点最短路径问题</h2><p>解决这个问题一个最好的方法是<a href="https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm" target="_blank" rel="external">Floyd-Warshll算法</a>，这个算法的思想是动态规划， 具体见wiki的解释。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">FloydWarshll</span><span class="params">(Graph&amp; graph, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt;&amp; dists, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt;&amp; next)</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; graph.size(); ++i) &#123;</div><div class="line"></div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; graph.size(); ++j) &#123;</div><div class="line"></div><div class="line">			dists[i][j] = graph.WeightAt(i, j);</div><div class="line"></div><div class="line">			next[i][j] = <span class="number">-1</span>;</div><div class="line"></div><div class="line">		&#125;</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; graph.size(); ++k) &#123;</div><div class="line"></div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> bg = <span class="number">0</span>; bg &lt; graph.size(); ++bg) &#123;</div><div class="line"></div><div class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> ed = <span class="number">0</span>; ed &lt; graph.size(); ++ed) &#123;</div><div class="line"></div><div class="line">				<span class="keyword">if</span>(dists[bg][ed] &lt; dists[bg][k] + dists[k][ed]) &#123;</div><div class="line"></div><div class="line">					dists[bg][ed] = dists[bg][k] + dists[k][ed];</div><div class="line"></div><div class="line">					next[bg][ed] = next[bg][k];				&#125;</div><div class="line"></div><div class="line">			&#125;</div><div class="line"></div><div class="line">		&#125;</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span> </span>&#123;</div><div class="line"></div><div class="line">	Graph graph;</div><div class="line"></div><div class="line">	graph.init();</div><div class="line"></div><div class="line">	<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; dists(graph.size(), <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(graph.size()));</div><div class="line"></div><div class="line">	<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; next(graph.size(), <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(graph.size()));</div><div class="line"></div><div class="line">	FloydWarshll(graph, dists, next);</div><div class="line"></div><div class="line">	PrintResult(dists, next);	</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h2 id="四、参考"><a href="#四、参考" class="headerlink" title="四、参考"></a>四、参考</h2><p>[1]. <a href="http://www.csie.ntnu.edu.tw/~u91029/Path.html" target="_blank" rel="external">http://www.csie.ntnu.edu.tw/~u91029/Path.html</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/08/Untitled/" itemprop="url">
-                  PA0
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2017-03-08T21:14:54+08:00" content="2017-03-08">
-              2017-03-08
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/03/08/Untitled/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/08/Untitled/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>[TOC] </p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这个东西是nju计算机系统基础，也就是计算机组成原理课的PA，内容主要是要实现一个类似qemu简化版的nemu。要做的内容见其<a href="https://www.gitbook.com/book/nju-ics/ics2016-programming-assignment/details" target="_blank" rel="external">文档</a>，主要要做的东西在这个图下面。</p>
-<p><img src="https://raw.githubusercontent.com/Matttteo/images/master/pa.png" alt="PA"></p>
-<p>内核部分暂时不用自己写，主要是虚拟出来一个cpu，自己去完成指令的译码执行等。虚拟的魔术主要发生在：</p>
-<ol>
-<li>模拟了寄存器，并且按照汇编级的代码去运行程序。也就是寄存器搬来搬去，cpu去完成逻辑运算，但是其实逻辑运算还有寄存器的赋值运算等还是要用c语言实现。</li>
-<li>虚拟了内存出来，其实内存就是一个大的数组而已。</li>
-<li>以后想到了再说。</li>
-</ol>
-<p>这个实验比较好玩的地方在于，比写内核还要更底层一点，因为写内核你不用去关心指令是怎么执行的，你只要按照cpu的指令集用去实现一些库函数，然后实现内存管理、内存堆栈的管理，线程管理等。这个实验中你还要实现MMU，cache，内存管理（这点和编写内核类似了），还有一些外部设备。实现了这个，你可以让一个内核跑在这个上面（其实一些内核的课就是在qemu上跑，这个就是去实现一个qemu），所以还是挺有意思的。</p>
-<h2 id="一，安装环境"><a href="#一，安装环境" class="headerlink" title="一，安装环境"></a>一，安装环境</h2><p>文档里使用Docker作为虚拟机，这比用vmware要轻量级许多。有关docker，可以看作是一个操作系统层次的虚拟化技术。传统虚拟机技术是虚拟出一套硬件，在上面运行整个操作系统，在这个系统上运行进程。而Docker内的应用程序进程直接运行在Host的内核。有关Docker的介绍，见[1]，[2]。</p>
-<p><img src="https://raw.githubusercontent.com/Matttteo/images/master/docker1.png" alt="virtual machine"></p>
-<p><img src="https://raw.githubusercontent.com/Matttteo/images/master/docker2.png" alt="docker"><br>安装过程大致为：</p>
-<ol>
-<li>在系统上<a href="https://docs.docker.com/engine/installation/" target="_blank" rel="external">安装</a>Docker</li>
-<li>编写Dockerfile</li>
-<li>build 系统镜像</li>
-<li>create 一个container（container名字，docker镜像，将ssh端口和寄主的20022端口绑定</li>
-<li>docker start ics-vm / docker stop ics-vm</li>
-<li>使用ssh连接</li>
-</ol>
-<p>遇到的坑：<br>主要是build的时候，在docker里apt-get 需要先update一下，最好改一下源。另外如果update失败先单独update 一次，否则重复执行docker只会用cached的数据，结果安装其他软件还是找不到。当然我最后解决的方法不是改源，我设置了代理。。</p>
-<p>因为我是在我的ubuntu上写的，所以其实没有用docker，并且我用sublime不用vim，所以安装到这里就结束了</p>
-<h2 id="二、参考"><a href="#二、参考" class="headerlink" title="二、参考"></a>二、参考</h2><p>[1]. <a href="https://www.gitbook.com/book/yeasy/docker_practice" target="_blank" rel="external">Docker — 从入门到实践</a></p>
-<p>[2]. <a href="https://www.docker.com/" target="_blank" rel="external">Docker 官方文档</a></p>
 
           
         

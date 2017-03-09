@@ -74,7 +74,7 @@
 <link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="生活," />
+  <meta name="keywords" content="算法,python," />
 
 
 
@@ -90,19 +90,16 @@
 
 
 
-<meta name="description" content="知乎上看到一个问题，如何让自己快速的静下来？有人回答收拾房间，这正符合我。我不是一个整整齐齐的人，但是我也喜欢整理房间，当东西妥妥当当，仿佛我会忘记一些烦恼事，让自己继续前进下去，似乎我又掌控了我的人生。
-今天把自己的书桌整理了一下，已经是乱的不成样子，但是我之前竟然没有察觉。整理他花了一个多小时，其间丢了很多东西，也算是一种断舍离吧。记得高中的时候每次整理完屋子，丢了一些东西后，那种“断舍离”的">
+<meta name="description" content="快排的思想是每次找一个元素把数组大致非为大于这个元素和小于这个元素（可以等于）的两个部分，然后在这两个部分递归的进行排序。123456QuickSort(nums, bg, ed):    if bg &amp;gt;= ed:        return    pivot = Partition(nums, bg, ed)    QuickSort(nums, bg, pivot - 1)    Qui">
 <meta property="og:type" content="article">
-<meta property="og:title" content="断舍离">
-<meta property="og:url" content="http://yoursite.com/2016/11/19/断舍离/index.html">
+<meta property="og:title" content="深入理解快速排序">
+<meta property="og:url" content="http://yoursite.com/2017/03/09/深入理解快速排序/index.html">
 <meta property="og:site_name" content="Yunhan">
-<meta property="og:description" content="知乎上看到一个问题，如何让自己快速的静下来？有人回答收拾房间，这正符合我。我不是一个整整齐齐的人，但是我也喜欢整理房间，当东西妥妥当当，仿佛我会忘记一些烦恼事，让自己继续前进下去，似乎我又掌控了我的人生。
-今天把自己的书桌整理了一下，已经是乱的不成样子，但是我之前竟然没有察觉。整理他花了一个多小时，其间丢了很多东西，也算是一种断舍离吧。记得高中的时候每次整理完屋子，丢了一些东西后，那种“断舍离”的">
-<meta property="og:updated_time" content="2016-11-19T16:27:22.000Z">
+<meta property="og:description" content="快排的思想是每次找一个元素把数组大致非为大于这个元素和小于这个元素（可以等于）的两个部分，然后在这两个部分递归的进行排序。123456QuickSort(nums, bg, ed):    if bg &amp;gt;= ed:        return    pivot = Partition(nums, bg, ed)    QuickSort(nums, bg, pivot - 1)    Qui">
+<meta property="og:updated_time" content="2017-03-09T15:50:39.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="断舍离">
-<meta name="twitter:description" content="知乎上看到一个问题，如何让自己快速的静下来？有人回答收拾房间，这正符合我。我不是一个整整齐齐的人，但是我也喜欢整理房间，当东西妥妥当当，仿佛我会忘记一些烦恼事，让自己继续前进下去，似乎我又掌控了我的人生。
-今天把自己的书桌整理了一下，已经是乱的不成样子，但是我之前竟然没有察觉。整理他花了一个多小时，其间丢了很多东西，也算是一种断舍离吧。记得高中的时候每次整理完屋子，丢了一些东西后，那种“断舍离”的">
+<meta name="twitter:title" content="深入理解快速排序">
+<meta name="twitter:description" content="快排的思想是每次找一个元素把数组大致非为大于这个元素和小于这个元素（可以等于）的两个部分，然后在这两个部分递归的进行排序。123456QuickSort(nums, bg, ed):    if bg &amp;gt;= ed:        return    pivot = Partition(nums, bg, ed)    QuickSort(nums, bg, pivot - 1)    Qui">
 
 
 
@@ -123,10 +120,10 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/11/19/断舍离/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/03/09/深入理解快速排序/"/>
 
 
-  <title> 断舍离 | Yunhan </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> 深入理解快速排序 | Yunhan </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="en">
@@ -246,7 +243,7 @@
             
             
               
-                断舍离
+                深入理解快速排序
               
             
           </h1>
@@ -258,8 +255,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-11-19T23:39:20+08:00" content="2016-11-19">
-              2016-11-19
+            <time itemprop="dateCreated" datetime="2017-03-09T23:49:36+08:00" content="2017-03-09">
+              2017-03-09
             </time>
           </span>
 
@@ -269,8 +266,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/11/19/断舍离/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/19/断舍离/" itemprop="commentsCount"></span>
+                <a href="/2017/03/09/深入理解快速排序/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/09/深入理解快速排序/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -293,13 +290,12 @@
       
 
       
-        <p>知乎上看到一个问题，如何让自己快速的静下来？有人回答收拾房间，这正符合我。我不是一个整整齐齐的人，但是我也喜欢整理房间，当东西妥妥当当，仿佛我会忘记一些烦恼事，让自己继续前进下去，似乎我又掌控了我的人生。</p>
-<p>今天把自己的书桌整理了一下，已经是乱的不成样子，但是我之前竟然没有察觉。整理他花了一个多小时，其间丢了很多东西，也算是一种断舍离吧。记得高中的时候每次整理完屋子，丢了一些东西后，那种“断舍离”的感觉会强烈一点，一次我说给同学听，同学表示不理解，为什么要连自己的小工艺品也丢了呢，我说这个东西寄托了我无聊时间太多的情绪，丢了他我心情很轻松。于是这样我就可以向前了，于是我更无拘无束了，但是隐隐约约又觉得有所失，后来我又不太爱丢东西了。</p>
-<p>其实连青春都是留不住的。走在冬天的路上，路边的冰用力也踩不破，过了两天居然连水也没留下了。更不用说那些草本植物，一茬换一茬。大自然倾向于替换，我们也是要被替换的东西。所以把旧的替换成新的，这是再正常不过的事情了，这样整个体系才能正常运转。</p>
-<p>在我整理桌子时，发现居然还留着新生报道的手册，顺便又回想了一下自己怎么来的，然后把它丢了。恩，问题来了，丢了这个东西为什么我脑子里还在想呢，就像你搬到了异国他乡身边没有一个东西关于你的亲人，为什么你每时每刻都会想到他们呢，你被关到了监狱里，除了一个衣服身边什么都没有，为什么你还是记挂着自己的老婆孩子呢？物质的环境是一种线索和提醒，比如一辆车提醒了我可以驾车去很多地方，一个舒服的床是接下来我有一个好的睡眠的线索，一个整洁的环境常常能提醒自己凡事安排妥当减轻未知的焦虑，等等。而这些提醒之所以成立，也在于我们心里已经有了这些概念，当物质的线索没了，那些真正的渴望的东西会在精神里找线索。所以整理屋子，实际上是扫除那些令人不快的线索，从这个角度看，也不完全是体力活了。</p>
-<p>因此，断舍离，不是在丢东西，而是一种心理暗示，我很轻松，我丢掉了包袱，被丢了的东西产生的空缺作为这种心里暗示在现实中的线索。</p>
-<p>据说乔布斯的屋子开始一直很空荡荡，因为他只选自己喜欢的东西进来，这算是一种禅境了。</p>
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="http://music.163.com/outchain/player?type=2&id=18795434&auto=1&height=66"></iframe>
+        <p>快排的思想是每次找一个元素把数组大致非为大于这个元素和小于这个元素（可以等于）的两个部分，然后在这两个部分递归的进行排序。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">QuickSort(nums, bg, ed):</div><div class="line">    <span class="keyword">if</span> bg &gt;= ed:</div><div class="line">        <span class="keyword">return</span></div><div class="line">    pivot = Partition(nums, bg, ed)</div><div class="line">    QuickSort(nums, bg, pivot - <span class="number">1</span>)</div><div class="line">    QuickSort(nums, pivot + <span class="number">1</span>, ed)</div></pre></td></tr></table></figure></p>
+<p>那么我们怎么找到一个元素在整个数组中的位置呢，最简单的方法，重新开辟一个相同大小的数组，每次把大于元素的数字放到尾巴处，小于的放到头处，这样时间复杂度是n，但是需要n的空间复杂度，考虑如何不使用多余的空间。<br>这种问题我们都可以考虑双工作指针的方法，所谓双工作指针，是说用两个指针把数组分成待处理，已处理两部分，已处理部分又分为两种性质，当然这个性质是很宽泛的，不应该死板的理解。类似的问题如荷兰国旗问题，Two Sum问题等。<br>快排里用left和right两个指针，其中left指向一个小于等于val的元素，并且left左边的位置都小于我们需要比较的元素。right指针右边的元素都大于我们要比较的元素。我们把left设置到数组开头，right设置到数组的尾部，可以满足上述<strong>性质</strong>，当left和right相遇的时候自然就结束了，在工作过程中要保证上述<strong>性质</strong>不变。<br>最终的代码可以写成这样：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Partition(nums, bg, ed):</div><div class="line">    left = bg</div><div class="line">    right = ed</div><div class="line">    val = nums[bg]</div><div class="line">    <span class="keyword">while</span> left &lt; right:</div><div class="line">        <span class="keyword">while</span> left &lt; right <span class="keyword">and</span> nums[right] &gt;= val :</div><div class="line">            right = right - <span class="number">1</span></div><div class="line">        nums[left] = nums[right]</div><div class="line">        <span class="keyword">while</span> left &lt; right <span class="keyword">and</span> nums[left] &lt;= val:</div><div class="line">            left = left - <span class="number">1</span></div><div class="line">         nums[right] = nums[left]</div><div class="line">    nums[left] = val</div><div class="line">    <span class="keyword">return</span> left</div></pre></td></tr></table></figure></p>
+<p>一般书上的快排就给了这个形式，看上去非常简洁，其实这个代码是把很多分支判断删除后的一个压缩状态的版本，我们从精简的版本无法恢复出一个完整版，但是有了完整版本则可以得出精简版。<br>要用双工作指针完成对数组的分块其实insight非常简单，我们把小的移动到左边，大的到右边，那么两个指针在移动的时候遇到一个不符合性质的就把他移动到另外一边就行了。比较复杂的在于什么时候这个过程停止？我们先移动左边的指针还是右边的指针？对于第二个问题先不讨论，第一个问题，什么时候停止？当然是left和right相遇的时候停止了，也就是说无论是在移动left或是right 的时候，你都要判断一下是不是双指针已经相遇了，如果相遇了怎么办，如果没相遇怎么继续。在这个思路下，我们写一个更为“复杂”的代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">Partition(nums, bg, ed):</div><div class="line">    left = bg</div><div class="line">    right = ed</div><div class="line">    val = nums[bg]</div><div class="line">    <span class="keyword">while</span> left &lt; right:</div><div class="line">        <span class="keyword">while</span> left &lt; right <span class="keyword">and</span> nums[right] &gt;= val:</div><div class="line">            right -= <span class="number">1</span></div><div class="line">        <span class="keyword">if</span> left == right:<span class="comment">#相遇了，**性质**没变，直接退出循环了</span></div><div class="line">            <span class="keyword">break</span></div><div class="line">        <span class="keyword">else</span>: <span class="comment">#当left 和 right 没相遇，意味着right指向了一个小于val的元素</span></div><div class="line">            <span class="keyword">while</span> left &lt; right <span class="keyword">and</span> nums[left] &lt;= val:<span class="comment"># 左边指针跳过一些符合条件的元素</span></div><div class="line">                left += <span class="number">1</span></div><div class="line">            <span class="keyword">if</span> left == right: <span class="comment">#相遇了，**性质**没变，直接退出循环了</span></div><div class="line">                <span class="keyword">break</span></div><div class="line">            <span class="keyword">else</span>: <span class="comment">#left 和right没相遇，意味着left 指向了一个大于val的元素</span></div><div class="line">                swap(nums, left, right) <span class="comment"># 我们把left 和 right 交换一下，这时候**性质**还是满足的</span></div><div class="line">    nums[left] = val</div><div class="line">    <span class="keyword">return</span> left</div></pre></td></tr></table></figure>
+<p>上面的代码就有很多逻辑判断，但是相对来说更清晰点，我们如果把这个里面一些“多余”的逻辑判断去掉就得到精简的快排代码了。</p>
+
       
     </div>
 
@@ -321,7 +317,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/生活/" rel="tag">#生活</a>
+            <a href="/tags/算法/" rel="tag">#算法</a>
+          
+            <a href="/tags/python/" rel="tag">#python</a>
           
         </div>
       
@@ -330,17 +328,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/11/17/C-中如何设计一个线程安全的单例/" rel="next" title=" C++中如何设计一个线程安全的单例">
-                <i class="fa fa-chevron-left"></i>  C++中如何设计一个线程安全的单例
+              <a href="/2017/03/09/最短路径算法总结/" rel="next" title="最短路径算法总结">
+                <i class="fa fa-chevron-left"></i> 最短路径算法总结
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/11/21/Oasis-Radiohead-Blur-The-stone-roses/" rel="prev" title="Oasis, Radiohead, Blur, The stone roses">
-                Oasis, Radiohead, Blur, The stone roses <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -366,8 +360,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/11/19/断舍离/"
-           data-title="断舍离" data-url="http://yoursite.com/2016/11/19/断舍离/">
+      <div class="ds-thread" data-thread-key="2017/03/09/深入理解快速排序/"
+           data-title="深入理解快速排序" data-url="http://yoursite.com/2017/03/09/深入理解快速排序/">
       </div>
     
   </div>
