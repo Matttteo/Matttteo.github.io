@@ -242,6 +242,130 @@
             
               
                 
+                <a class="post-title-link" href="/2017/03/12/深入二叉树理解树的遍历和搜索/" itemprop="url">
+                  深入二叉树理解树的遍历和搜索
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2017-03-12T23:42:08+08:00" content="2017-03-12">
+              2017-03-12
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/03/12/深入二叉树理解树的遍历和搜索/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/12/深入二叉树理解树的遍历和搜索/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="一、二叉树的定义"><a href="#一、二叉树的定义" class="headerlink" title="一、二叉树的定义"></a>一、二叉树的定义</h2><p>所谓二叉树，就是每个树节点都有两个孩子的树，两个孩子分别叫左孩子和右孩子，二叉树这种数据结构可以用于二叉查找树，有关二叉树的性质见<a href="https://en.wikipedia.org/wiki/Binary_tree" target="_blank" rel="external">wiki</a>.</p>
+<h2 id="二、二叉树的遍历"><a href="#二、二叉树的遍历" class="headerlink" title="二、二叉树的遍历"></a>二、二叉树的遍历</h2><p>二叉树的遍历可以分为前序，中序，后序三种，由于每个二叉树的孩子本身也是一个二叉树，所以这种遍历是一种递归的形式，那么我们自然可以把代码写成递归，比如先序遍历：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">PreOrder(root):</div><div class="line">    <span class="keyword">if</span> root == null:</div><div class="line">        <span class="keyword">return</span></div><div class="line">    <span class="keyword">print</span> root.val</div><div class="line">    PreOrder(root.left)</div><div class="line">    PreOrder(root.right)</div><div class="line">    <span class="keyword">return</span></div></pre></td></tr></table></figure></p>
+<p>而我们知道，所谓递归调用，在计算机中是通过内存空间里的栈来实现的。栈是一个先入后出的线性数据结构，如果我们想实现函数1调用函数2的结果，我们只要把函数2的帧放到1的上面，由于指令总是取栈顶的栈进行处理，当处理完毕后把栈顶帧pop掉，那么我们就保证了只有函数2执行完了我们的函数1才继续执行，通过这样一个简单的机制，函数的相互调用就得以有序进行了。</p>
+<p>而递归调用是调用自己，和调用其它函数一样，递归调用也要在当前帧上放一个子问题的帧，当子问题处理完了再来处理当前帧。所以，递归调用并没有什么新鲜的东西，无法是一种函数调用而已。</p>
+<p>问题是我们怎么知道我们处理当前的问题1的时候是应该调用子问题2还是执行后面的代码或者直接返回了呢？这是通过返回地址实现的，所谓返回地址，是指当某个函数执行完了后，CPU去读取的下一条指令的地址，也就是说每个函数1在调用其他函数2的时候要把返回地址也放到自己的帧上面，这样当2结束的时候，1就知道从哪里继续了。</p>
+<p>上面这个算法，非常简单有效的解决了函数调用的问题，也是我们解决递归问题的核心。</p>
+<p>再多说两句，程序被编译成二进制代码后，背后的实质是指令被存储起来之后顺序执行。指令要操纵的是什么呢，寄存器和内存。寄存器都有编号，内存在操作系统的地址转换机制保障下是一个很大的数组。一个最简单的a+b运算，我们可以把a,b放到两个寄存器，然后调用加法指令把两个寄存器内容相加保存到一个新的地址上去。computer毕竟不只是计算器，在计算机里函数会互相调用，举个函数调用的例子：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> a  + b;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> a = <span class="number">1</span>;</div><div class="line">    <span class="keyword">int</span> b = <span class="number">2</span>;</div><div class="line">    <span class="keyword">int</span> c = sum(a + b);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, c);</div><div class="line">    <span class="keyword">return</span> c;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这个例子里，main调用了sum，如果说不使用栈来搞定这个函数执行会如何呢？我们需要把a,b,c分别放在内存或寄存器中，而且我们必须在编译的时候就确定他们的地址。在这个例子中，我们还是可以处理的，无法是多了一个变量而已，但是如果调用的函数特别多，变量也特别多的时候，我们必须一开始就把所有函数中的变量地址都提取设置好地址，即使他们还没被执行到，或者说他们已经被执行完了。并且有许多变量在没有执行的时候，根本不知道需要多少变量，可能还需要根据用户的输入来临时生成变量。这种情况下，需要执行代码的时候动态的分配变量。使用栈我们就可以通过函数在栈中的相对位置来分配变量的地址了。</p>
+<p>当然在C语言中，我们也是可以根据输入动态分配变量的，但是那是通过指针的方式，使用的是动态内存，也就是堆中的内存。在C语言中我们知道，变量要先声明才能用，一个数组要首先声明他的大小才能用，一个结构体，一个复杂的数据结构也都是这样的。如果我们不用栈，而是在编译的时候就把变量的绝对地址指定，那么会很麻烦的。</p>
+<p>如果一定要实现，我们设想一个表，每个函数对应一个表项，每个表项里面是这个函数需要的所有变量的地址。当编译的时候，我们生成这个表，然后我们确实不需要栈了，我们一条条执行指令，遇到一个变量就从表里面读这个变量的地址。当然在真实的计算机里，不是这样做的。</p>
+<p>回到树的遍历问题上，对于递归版本，其实很简单，就是用内存中的栈来实现递归，并且每个函数在调用子函数的时候，不会直接把当前的栈帧给消除，而是利用返回地址来保证顺序执行（如在先序遍历的代码里，当前函数要调用自己处理左孩子的时候，帧里面保持下一行代码的地址，而下一次保存return行的代码）。这个函数的栈帧不止保存一个参数，其实他还会保持一些其他的东西，所以一个栈帧比一个元素大多了。并且每创建一个帧，要很多的代码，这也会使得执行很慢，有时候还会出现递归层次太深导致stack overflow的问题，所以有时候我们考虑不用递归解决问题。</p>
+<p>不递归解决遍历问题，我们使用一个用户创建的栈来模拟递归的执行过程，并且我们用一些隐含的信息来实现”返回地址“这个东西。先看一下中序遍历非递归算法：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">InOrder</span><span class="params">(Node* p)</span> </span>&#123;</div><div class="line">    <span class="built_in">stack</span>&lt;Node*&gt; stk;</div><div class="line">    <span class="keyword">while</span>(p != null || !stk.empty()) &#123;</div><div class="line">        <span class="keyword">while</span>(p != null) &#123;</div><div class="line">            stk.push(p);</div><div class="line">            p = p -&gt; left;</div><div class="line">        &#125;</div><div class="line">        p = stk.top();</div><div class="line"></div><div class="line">        <span class="built_in">cout</span> &lt;&lt; p-&gt;val &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">        p = p -&gt; right;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>循环不变式：<br>p代表要处理的子树，stk里面保存等待左子树处理完的节点。</p>
+<p>当p不为空，我们就把他入栈，并且去处理他的左子树。一旦一个子树为空，那么当前栈顶一定是他的父节点或祖先节点，那么我们可以输出栈顶，然后我们不需要保存他了，把他弹出，这个时候我们处理他的右结点，继续下一次循环。我们看到，循环不变式没有变。并且保证了左子树先输出，然后是自己，然后是右子树。当子树为空，并且没有等待处理左子树的节点，循环结束。</p>
+<p>类似的，前序遍历：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">PreOrder</span><span class="params">(Node* p)</span> </span>&#123;</div><div class="line">    <span class="built_in">stack</span>&lt;Node*&gt; stk;</div><div class="line">    <span class="keyword">while</span>(p != null || !stk.empty()) &#123;</div><div class="line">        <span class="keyword">while</span>(p != null) &#123;</div><div class="line">            stk.push(p);</div><div class="line">            <span class="built_in">cout</span> &lt;&lt; p-&gt;val &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">            p = p -&gt; left;</div><div class="line">        &#125;</div><div class="line">        p = stk.top();</div><div class="line">        stk.pop();</div><div class="line">        p = p -&gt; right;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这两种遍历，我们在取栈顶元素的时候，直接弹出就可以了，因为左子树处理完了，父节点也没有必要保存了，因为他自己已经处理完。但是后序遍历就没那么简单了，当我们取栈顶元素的时候，虽然保证了左子树一定处理完了，但是我们这时候要判断一下他右子树有没有处理，如果处理了那么我们输出并弹出，没有问题，但是要是右子树还没被处理，那我们就不能输出也就不能弹出栈。所以必须有一个东西来判断栈顶元素的右子树有没有被处理。</p>
+<p>暴力的方法是每次修改右子树指针为空，下次如果遇到一个右子树指针为空，自然我们就可以弹出了。但是这样会把一个树破坏了。</p>
+<p>另外一个方法是添加一个标记位，在取出栈顶元素的时候看看标记为，如果右子树没进栈过，就不弹出，并且修改标记。如果标记位显示右子树已经进栈过了，那么输出并弹出。这样会增加空间，但是已经不错了。</p>
+<p>一个巧妙的方法是使用一个last指针指向上一次弹出的元素，在去除栈顶元素的时候看一下last是不是自己的右孩子，如果是的话就弹出并输出，然后把last指向当前的元素。如果不是得就先不弹出，把右子树进栈，下面实现一下这个算法：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">PostOrder</span><span class="params">(Node* p)</span> </span>&#123;</div><div class="line">    <span class="built_in">stack</span>&lt;Node*&gt; stk;</div><div class="line">    Node* last = p;</div><div class="line">    <span class="keyword">while</span>(p != null || !stk.empty()) &#123;</div><div class="line">        <span class="keyword">while</span>(p != null) &#123;</div><div class="line">            stk.push(p);</div><div class="line">            p = p -&gt; left;</div><div class="line">        &#125;</div><div class="line">        p = stk.top();</div><div class="line">        <span class="keyword">if</span>(p -&gt; right == null || (p -&gt; right != null &amp;&amp; p -&gt; right == last)) &#123;</div><div class="line">            <span class="built_in">cout</span> &lt;&lt; p -&gt; val;</div><div class="line">            last = p;</div><div class="line">            stk.pop();</div><div class="line">        &#125;</div><div class="line">        p = p-&gt;right;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="三、二叉树的搜索"><a href="#三、二叉树的搜索" class="headerlink" title="三、二叉树的搜索"></a>三、二叉树的搜索</h2><p>搜索和遍历挺像的，一般分为DFS（深度优先）和BFS（广度优先）两种，DFS一般递归实现，按照我们之前说的，也可以改成非递归，保存状态就可以了。BFS一般用一个队列实现。我们实现一下分层输出：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">BFS</span><span class="params">(Node* p)</span> </span>&#123;</div><div class="line">    <span class="built_in">queue</span>&lt;Node*&gt; q;</div><div class="line">    <span class="keyword">if</span>(p == null) <span class="keyword">return</span>;</div><div class="line">    q.push(p);</div><div class="line">    q.push(null);</div><div class="line">    <span class="keyword">while</span>(!q.empty()) &#123;</div><div class="line">        p = q.front();</div><div class="line">        <span class="keyword">if</span>(p == null) &#123;</div><div class="line">            <span class="built_in">cout</span> &lt;&lt; <span class="string">'\n'</span>;</div><div class="line">            q.push(null);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span> &#123;</div><div class="line">            <span class="built_in">cout</span> &lt;&lt; p-&gt;val;</div><div class="line">            <span class="keyword">if</span>(p-&gt;left != null) &#123;</div><div class="line">                q.push(p-&gt;left);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span>(p-&gt;right != null) &#123;</div><div class="line">                q.push(p-&gt;right);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/03/09/深入理解快速排序/" itemprop="url">
                   深入理解快速排序
                 </a>
@@ -398,8 +522,7 @@
       
         
           
-            <p>[TOC]</p>
-<h2 id="一、最短路径问题的定义"><a href="#一、最短路径问题的定义" class="headerlink" title="一、最短路径问题的定义"></a>一、最短路径问题的定义</h2><p>对于一个图，任意取两个点做起点和终点，可以规划出n条起点到终点的路线，不兜圈子不重复经过某一点的路线叫做一个路径（path），如果图中的边有权重，那么这些路径也就有了长度。</p>
+            <h2 id="一、最短路径问题的定义"><a href="#一、最短路径问题的定义" class="headerlink" title="一、最短路径问题的定义"></a>一、最短路径问题的定义</h2><p>对于一个图，任意取两个点做起点和终点，可以规划出n条起点到终点的路线，不兜圈子不重复经过某一点的路线叫做一个路径（path），如果图中的边有权重，那么这些路径也就有了长度。</p>
 <p>最短路径是从起点到终点长度最短的路径，当图没有负边的时候，这个问题是一个NP 完全的问题，最长路径问题类似，当没有正边是NP完全问题。</p>
 <p>最短路径有一个很好的性质：</p>
 <blockquote>
@@ -1252,134 +1375,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/11/04/pythonQA01/" itemprop="url">
-                  pythonQA01
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-11-04T23:23:00+08:00" content="2016-11-04">
-              2016-11-04
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/11/04/pythonQA01/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/04/pythonQA01/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="如何得到HTML中某个tag中的text内容？"><a href="#如何得到HTML中某个tag中的text内容？" class="headerlink" title="如何得到HTML中某个tag中的text内容？"></a>如何得到HTML中某个tag中的text内容？</h3><ol>
-<li>首先，要得到所有想要的tag对象，用BeatifulSoup中的<a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/index.zh.html#find-all" target="_blank" rel="external">find_all</a>，</li>
-<li>然后直接.text获取</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">page = urllib.urlopen(<span class="string">"inmind.html"</span>).read()</div><div class="line">soup = BeautifulSoup(page, <span class="string">"lxml"</span>)</div><div class="line">result = soup.find_all(<span class="string">"div"</span>, class_ = <span class="string">"Attachment-body"</span>)</div><div class="line"><span class="keyword">for</span> res <span class="keyword">in</span> result:</div><div class="line">    <span class="keyword">print</span> res.text</div></pre></td></tr></table></figure>
-<h3 id="python-中如何分配一个固定大小的数组"><a href="#python-中如何分配一个固定大小的数组" class="headerlink" title="python 中如何分配一个固定大小的数组"></a>python 中如何分配一个固定大小的数组</h3><p>我希望的是在内存中分配一块固定空间大小的空间，如果使用下面的方法生成n 维数组，得到的结果不是需要的。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">a = [[<span class="keyword">None</span>]*<span class="number">5</span>] * <span class="number">5</span></div></pre></td></tr></table></figure></p>
-<p>原因是list的repetition操作*执行的是浅拷贝，他只是把创造了一些已有的对象的引用。<br>可以下面两种方式得到正确的数组。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># first method</span></div><div class="line">a = [<span class="keyword">None</span>]*<span class="number">5</span></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>):</div><div class="line">    a[i] = [<span class="keyword">None</span>] * <span class="number">5</span></div><div class="line"></div><div class="line"><span class="comment"># second method</span></div><div class="line">a = [[<span class="keyword">None</span>] * <span class="number">5</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>)]</div></pre></td></tr></table></figure>
-<p>参考<a href="https://docs.python.org/2/faq/programming.html#how-do-i-create-a-multidimensional-list" target="_blank" rel="external">这里</a></p>
-<p>另外如果用numpy的ndarrary更方便</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">a = np.ndarrary((<span class="number">3</span>,<span class="number">3</span>))</div></pre></td></tr></table></figure>
-<h3 id="python如何检查元素是否在set中"><a href="#python如何检查元素是否在set中" class="headerlink" title="python如何检查元素是否在set中?"></a>python如何检查元素是否在set中?</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">a = set([<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>])</div><div class="line"><span class="keyword">print</span> <span class="number">3</span> <span class="keyword">in</span> a</div></pre></td></tr></table></figure>
-<h3 id="python中json的用法"><a href="#python中json的用法" class="headerlink" title="python中json的用法"></a>python中json的用法</h3><p><a href="http://json.org/" target="_blank" rel="external">json</a> 用于存储结构化数据非常方便，用python的json包可以很好的实现对json的操作。</p>
-<ol>
-<li>将json Object 移动到python string中：json.dumps</li>
-<li>将json Object 移动到文件中: json.dump</li>
-<li>将字符串转换为json object : json.loads</li>
-<li>将文件转换为json object: json.load<br>具体参考<a href="https://docs.python.org/2/library/json.html" target="_blank" rel="external">这里</a></li>
-</ol>
-<h3 id="如何创建一个文件夹（当已经存在时跳过）"><a href="#如何创建一个文件夹（当已经存在时跳过）" class="headerlink" title="如何创建一个文件夹（当已经存在时跳过）"></a>如何创建一个文件夹（当已经存在时跳过）</h3><p><a href="http://stackoverflow.com/a/273227" target="_blank" rel="external">参考</a><br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> <span class="keyword">not</span> os.path.exisits(directory):</div><div class="line">    os.mkdir(directory)</div></pre></td></tr></table></figure></p>
-<h3 id="如何使用python-下载文件"><a href="#如何使用python-下载文件" class="headerlink" title="如何使用python 下载文件"></a>如何使用python 下载文件</h3><ol>
-<li>使用 <a href="https://docs.python.org/2/library/urllib.html#urllib.urlretrieve_" target="_blank" rel="external">urllib.urlretrieve</a></li>
-</ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> urllib</div><div class="line">urllib.urlretrieve(<span class="string">"https://example.com/file/test.doc"</span>, <span class="string">"test.doc"</span>)</div></pre></td></tr></table></figure>
-<ol>
-<li>使用<a href="https://docs.python.org/2/library/urllib2.html#urllib2.urlopen" target="_blank" rel="external">urllib2.urlopen</a></li>
-</ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> urllib2</div><div class="line">response = urllib2.urlopen(<span class="string">"http://www.example.com/file"</span>)</div><div class="line"><span class="keyword">with</span> open(<span class="string">"output"</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> output:</div><div class="line">    output.write(response.read())</div></pre></td></tr></table></figure>
-<h3 id="如何使用python移除字符串空格？"><a href="#如何使用python移除字符串空格？" class="headerlink" title="如何使用python移除字符串空格？"></a>如何使用python移除字符串空格？</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#移除头尾空格</span></div><div class="line">str  = str.strip()</div><div class="line"><span class="comment">#移除所有</span></div><div class="line">str = str.replace(<span class="string">" "</span>, <span class="string">""</span>)</div><div class="line"><span class="comment">#移除重复</span></div><div class="line">str = <span class="string">" "</span>.join(str.split())</div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1425,7 +1420,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-count">16</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
